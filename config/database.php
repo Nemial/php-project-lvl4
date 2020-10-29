@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Str;
 
+$DATABASE_URL = parse_url(getenv("DATABASE_URL"));
+$host = $DATABASE_URL["host"] ?? '127.0.0.1';
+$port = $DATABASE_URL["port"] ?? '3306';
+$database = $DATABASE_URL["path"] ? ltrim($DATABASE_URL["path"], "/") : 'forge';
+$username = $DATABASE_URL["user"] ?? 'forge';
+$password = $DATABASE_URL["pass"] ?? '';
+
 return [
 
     /*
