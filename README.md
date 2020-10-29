@@ -1,2 +1,2 @@
-### Hexlet tests and linter status:
+### Task Manager
 ![Actions Status](/workflows/hexlet-check/badge.svg)

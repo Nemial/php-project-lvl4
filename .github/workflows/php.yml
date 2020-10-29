@@ -1,0 +1,61 @@
+name: Page Analyzer
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: 1
+          POSTGRES_DB: hexlet
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run Linter
+        run: make lint
+
+      - name: Laravel Migrate
+        env:
+          DB_CONNECTION: pgsql
+          DB_PORT: 5432
+          DB_DATABASE: hexlet
+          DB_USERNAME: postgres
+          DB_PASSWORD: 1
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          php artisan migrate --force
+      - name: Run Test
+        run: php artisan test
+
+
+      - name: Test & publish code coverage
+        uses: paambaati/codeclimate-action@v2.6.0
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID_MY}}
+        with:
+          coverageCommand: make test-coverage
+          coverageLocations: ${{github.workspace}}/coverage-report:clover
