@@ -1,2 +1,2 @@
 ### Task Manager
-![Actions Status](/workflows/hexlet-check/badge.svg)
+![Task Manager](https://github.com/Nemial/php-project-lvl4/workflows/Task%20Manager/badge.svg)
