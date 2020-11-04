@@ -41,10 +41,10 @@ jobs:
         uses: rollbar/github-deploy-action@1.1.0
         id: rollbar_deploy
         with:
-            environment: 'production'
-            version: ${{ github.sha }}
+          environment: 'production'
+          version: ${{ github.sha }}
         env:
-            ROLLBAR_ACCESS_TOKEN: ${{ secrets.ROLLBAR_ACCESS_TOKEN }}
+          ROLLBAR_ACCESS_TOKEN: ${{ secrets.ROLLBAR_ACCESS_TOKEN }}
 
       - name: Laravel Migrate
         env:
