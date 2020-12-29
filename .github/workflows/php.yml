@@ -7,9 +7,17 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
+  run:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ 'ubuntu-latest']
+        php-versions: [ '7.4' ]
+        phpunit-versions: [ 'latest' ]
+        include:
+          - operating-system: 'ubuntu-latest'
+            php-versions: '7.4'
+            phpunit-versions: 'latest'
 
     services:
       postgres:
@@ -26,12 +34,6 @@ jobs:
           - 5432:5432
 
     steps:
-      - name: Setup PHP with PECL extension
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.4'
-          extensions: pgsql
-
       - uses: actions/checkout@v2
 
       - name: Validate composer.json and composer.lock
