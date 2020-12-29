@@ -18,7 +18,6 @@ class TaskStatusControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
     }
 
     public function testExample()
