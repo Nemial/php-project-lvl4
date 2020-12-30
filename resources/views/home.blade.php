@@ -2,22 +2,12 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
-
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        {{ __('You are logged in!') }}
-                    </div>
-                </div>
-            </div>
+        <div class="jumbotron">
+            <h1 class="display-4">Task Manager</h1>
+            <p class="lead">Simple implementation of typical task manager</p>
+            <hr class="my-4">
+            <p>Study Project</p>
+            <a class="btn btn-primary btn-lg" href="https://github.com/Nemial/php-project-lvl4" role="button">Learn more</a>
         </div>
     </div>
 @endsection
