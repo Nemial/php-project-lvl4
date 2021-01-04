@@ -53,4 +53,22 @@ class TaskStatusControllerTest extends TestCase
         $response = $this->get(route("task_statuses.show", ['task_status' => $this->id]));
         $response->assertOk();
     }
+
+    public function testEdit()
+    {
+        $response = $this->get(route('task_statuses.edit', ['task_status' => $this->id]));
+
+        $response->assertStatus(200);
+    }
+
+    public function testUpdate()
+    {
+        $data = ['name' => 'Старый'];
+        $response = $this->put(route('task_statuses.update', ['task_status' => $this->id]), $data);
+        $response->assertRedirect();
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseHas('task_statuses', ['name' => 'Старый']);
+
+        $response->assertStatus(200);
+    }
 }
