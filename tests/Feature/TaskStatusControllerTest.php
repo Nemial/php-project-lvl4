@@ -50,7 +50,7 @@ class TaskStatusControllerTest extends TestCase
 
     public function testShow()
     {
-        $response = $this->get(route("task_statuses.show", ['id' => $this->id]));
+        $response = $this->get(route("task_statuses.show", ['task_status' => $this->id]));
         $response->assertOk();
     }
 }
