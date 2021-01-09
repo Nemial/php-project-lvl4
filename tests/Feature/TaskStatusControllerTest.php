@@ -11,6 +11,7 @@ class TaskStatusControllerTest extends TestCase
     use RefreshDatabase;
 
     private int $id;
+    protected $seed = true;
     /**
      * A basic feature test example.
      *
@@ -19,33 +20,30 @@ class TaskStatusControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $taskStatus = new TaskStatus();
-        $taskStatus->name = 'В работе';
-        $taskStatus->save();
-        $this->id = $taskStatus->id;
+        $this->id = TaskStatus::first()->id;
     }
 
     public function testIndex()
     {
         $response = $this->get(route('task_statuses.index'));
 
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 
     public function testCreate()
     {
         $response = $this->get(route('task_statuses.create'));
 
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 
     public function testStore()
     {
-        $data = ['name' => 'Новый'];
+        $data = ['name' => 'Тестовый'];
         $response = $this->post(route('task_statuses.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => 'Новый']);
+        $this->assertDatabaseHas('task_statuses', ['name' => 'Тестовый']);
     }
 
     public function testShow()
@@ -58,17 +56,23 @@ class TaskStatusControllerTest extends TestCase
     {
         $response = $this->get(route('task_statuses.edit', ['task_status' => $this->id]));
 
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 
     public function testUpdate()
     {
-        $data = ['name' => 'Старый'];
+        $data = ['name' => 'Изменённый'];
         $response = $this->put(route('task_statuses.update', ['task_status' => $this->id]), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => 'Старый']);
+        $this->assertDatabaseHas('task_statuses', ['name' => 'Изменённый']);
+    }
 
-        $response->assertStatus(200);
+    public function testDestroy()
+    {
+        $response = $this->delete(route('task_statuses.destroy', ['task_status' => $this->id]));
+        $response->assertRedirect();
+        $response->assertSessionHasNoErrors();
+        $this->assertDatabaseMissing('task_statuses', ['id' => $this->id]);
     }
 }

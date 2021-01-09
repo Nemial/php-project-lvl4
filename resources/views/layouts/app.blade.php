@@ -21,6 +21,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 </head>
 <body>
+@section('flash')
+    <div class="container">
+        @include('flash::message')
+    </div>
+@show
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
@@ -37,7 +42,7 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('task_statuses.index') }}">tasksStatuses</a>
+                        <a class="nav-link {{\Illuminate\Support\Facades\Request::path() === 'task_statuses' ? 'active' : ''}}" href="{{ route('task_statuses.index') }}">tasksStatuses</a>
                     </li>
                 </ul>
 
@@ -81,7 +86,7 @@
         </div>
     </nav>
 
-    <main class="py-4">
+    <main class="container py-4">
         @yield('content')
     </main>
 </div>

@@ -21,11 +21,12 @@ class TaskStatusController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        $taskStatus = new TaskStatus();
+        return view('task_status.create', ['taskStatus' => $taskStatus]);
     }
 
     /**
@@ -36,7 +37,12 @@ class TaskStatusController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        $data = $this->validate(
+            $request,
+            [
+                'name' => 'required'
+            ]
+        );
         $taskStatus = new TaskStatus();
         $taskStatus->fill($data);
         $taskStatus->save();
@@ -47,22 +53,22 @@ class TaskStatusController extends Controller
      * Display the specified resource.
      *
      * @param \App\Models\TaskStatus $taskStatus
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function show(TaskStatus $taskStatus)
     {
-        //
+        return view('task_status.show', ['taskStatus' => $taskStatus]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param \App\Models\TaskStatus $taskStatus
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function edit(TaskStatus $taskStatus)
     {
-        //
+        return view('task_status.edit', ['taskStatus' => $taskStatus]);
     }
 
     /**
@@ -74,7 +80,12 @@ class TaskStatusController extends Controller
      */
     public function update(Request $request, TaskStatus $taskStatus)
     {
-        $data = $request->all();
+        $data = $this->validate(
+            $request,
+            [
+                'name' => 'required'
+            ]
+        );
         $taskStatus->fill($data);
         $taskStatus->save();
         return redirect()->route('task_statuses.index');
@@ -84,9 +95,11 @@ class TaskStatusController extends Controller
      * Remove the specified resource from storage.
      *
      * @param \App\Models\TaskStatus $taskStatus
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(TaskStatus $taskStatus)
     {
+        $taskStatus->delete();
+        return redirect()->route('task_statuses.index');
     }
 }
