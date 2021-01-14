@@ -8,14 +8,23 @@
         <th scope="col">Id</th>
         <th scope="col">Name</th>
         <th scope="col">Created At</th>
+        @auth()
+            <th scope="col">Action</th>
+        @endauth
     </tr>
     </thead>
     <tbody>
     @foreach ($taskStatuses as $taskStatus)
         <tr>
-            <td scope="row">{{$taskStatus->id}}</td>
-            <td scope="row">{{$taskStatus->name}}</td>
-            <td scope="row">{{$taskStatus->created_at}}</td>
+            <td>{{$taskStatus->id}}</td>
+            <td>{{$taskStatus->name}}</td>
+            <td>{{$taskStatus->created_at}}</td>
+            @auth()
+                <td>
+                    <a href="{{route('task_statuses.edit', $taskStatus->id)}}" class="text-primary">Edit</a>
+                    <a href="{{route('task_statuses.destroy', $taskStatus->id)}}" class="text-danger" data-method="delete" rel="nofollow" data-confirm="Are you sure?">Delete</a>
+                </td>
+            @endauth
         </tr>
     @endforeach
     </tbody>

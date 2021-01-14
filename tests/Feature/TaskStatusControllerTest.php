@@ -48,13 +48,13 @@ class TaskStatusControllerTest extends TestCase
 
     public function testShow()
     {
-        $response = $this->get(route("task_statuses.show", ['task_status' => $this->id]));
+        $response = $this->get(route("task_statuses.show", $this->id));
         $response->assertOk();
     }
 
     public function testEdit()
     {
-        $response = $this->get(route('task_statuses.edit', ['task_status' => $this->id]));
+        $response = $this->get(route('task_statuses.edit', $this->id));
 
         $response->assertOk();
     }
@@ -62,7 +62,7 @@ class TaskStatusControllerTest extends TestCase
     public function testUpdate()
     {
         $data = ['name' => 'Изменённый'];
-        $response = $this->put(route('task_statuses.update', ['task_status' => $this->id]), $data);
+        $response = $this->put(route('task_statuses.update', $this->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('task_statuses', ['name' => 'Изменённый']);
@@ -70,7 +70,7 @@ class TaskStatusControllerTest extends TestCase
 
     public function testDestroy()
     {
-        $response = $this->delete(route('task_statuses.destroy', ['task_status' => $this->id]));
+        $response = $this->delete(route('task_statuses.destroy', $this->id));
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('task_statuses', ['id' => $this->id]);

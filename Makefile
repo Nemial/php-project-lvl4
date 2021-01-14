@@ -1,9 +1,11 @@
 setup:
 	composer install
-	cp -n .env.example .env|| true
+	npm install
+	npm run watch
+	cp -n .env.example .env || true
 	php artisan key:gen --ansi
 	touch database/database.sqlite
-	php artisan migrate
+	php artisan migrate --seed
 lint:
 	composer phpcs -- --standard=PSR12 tests routes
 lint-fix:

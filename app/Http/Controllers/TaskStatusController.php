@@ -88,6 +88,7 @@ class TaskStatusController extends Controller
         );
         $taskStatus->fill($data);
         $taskStatus->save();
+        flash('Status has been edited')->success();
         return redirect()->route('task_statuses.index');
     }
 
@@ -100,6 +101,7 @@ class TaskStatusController extends Controller
     public function destroy(TaskStatus $taskStatus)
     {
         $taskStatus->delete();
+        flash('Status has been deleted')->success();
         return redirect()->route('task_statuses.index');
     }
 }
