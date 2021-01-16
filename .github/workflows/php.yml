@@ -13,7 +13,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:latest
+        image: postgres:12
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -35,16 +35,15 @@ jobs:
       - name: Create Environment
         env:
           DB_CONNECTION: pgsql
-          DB_PORT: ${{ job.services.postgres.ports[5432] }}
+          DB_PORT: 5432
           DB_DATABASE: hexlet
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
         run: |
           composer install
-          cp -n .env.example .env || true
-          php artisan key:gen --ansi
-          touch database/database.sqlite
-          php artisan migrate --seed
+          cp .env.example .env
+          php artisan key:generate
+          php artisan migrate --force
 
       - name: Run Linter
         run: make lint
