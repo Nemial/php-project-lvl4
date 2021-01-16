@@ -35,7 +35,7 @@ jobs:
       - name: Create Environment
         env:
           DB_CONNECTION: pgsql
-          DB_PORT: 5432
+          DB_PORT: ${{ job.services.postgres.ports[5432] }}
           DB_DATABASE: hexlet
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
