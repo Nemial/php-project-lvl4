@@ -5,7 +5,7 @@ setup:
 	cp -n .env.example .env || true
 	php artisan key:gen --ansi
 	touch database/database.sqlite
-	php artisan migrate --seed --force
+	php artisan migrate --seed
 lint:
 	composer phpcs -- --standard=PSR12 tests routes
 lint-fix:

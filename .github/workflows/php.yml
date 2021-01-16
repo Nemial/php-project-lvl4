@@ -38,7 +38,12 @@ jobs:
           DB_DATABASE: hexlet
           DB_USERNAME: postgres
           DB_PASSWORD: 1
-        run: make setup
+        run: |
+          composer install
+          cp -n .env.example .env || true
+          php artisan key:gen --ansi
+          touch database/database.sqlite
+          php artisan migrate --seed
 
       - name: Run Linter
         run: make lint
