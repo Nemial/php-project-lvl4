@@ -1,4 +1,4 @@
-name: Task Manager
+name: Page Analyzer
 
 on:
   push:
@@ -28,43 +28,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.4'
-          extensions: mbstring, intl
-          ini-values: post_max_size=256M, max_execution_time=180
-          tools: php-cs-fixer, phpunit
-
       - name: Validate composer.json and composer.lock
         run: composer validate
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
-
-      - name: Run Linter
-        run: make lint
-
-      - name: Notify deploy to Rollbar
-        uses: rollbar/github-deploy-action@1.1.0
-        id: rollbar_deploy
-        with:
-          environment: 'production'
-          version: ${{ github.sha }}
-        env:
-          ROLLBAR_ACCESS_TOKEN: ${{ secrets.ROLLBAR_ACCESS_TOKEN }}
-
-      - name: Laravel Migrate
+      - name: Create Environment
         env:
           DB_CONNECTION: pgsql
           DB_PORT: 5432
           DB_DATABASE: hexlet
           DB_USERNAME: postgres
           DB_PASSWORD: 1
-        run: |
-          cp .env.example .env
-          php artisan key:generate
-          php artisan migrate --force
+        run: make setup
+
+      - name: Run Linter
+        run: make lint
+
       - name: Run Test
         run: php artisan test
 
