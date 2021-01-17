@@ -2,7 +2,9 @@
 
 @section('content')
     <h1 class="mb-5">Task Statuses</h1>
+    @auth()
     <a href="{{route('task_statuses.create')}}" class="btn btn-primary mb-2">{{__('index.create')}}</a>
+    @endauth
 <table class="table table-striped">
     <thead class="thead-dark">
     <tr>
