@@ -40,18 +40,32 @@ jobs:
           DB_DATABASE: hexlet
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
-        run: |
-          make setup
-          make test
+        run: make setup
 
       - name: Run Linter
         run: make lint
+
+      - name: Run Test
+        env:
+          DB_HOST: localhost
+          DB_CONNECTION: pgsql
+          DB_PORT: 5432
+          DB_DATABASE: hexlet
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+        run: make test
 
 
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v2.7.4
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID_MY}}
+          DB_HOST: localhost
+          DB_CONNECTION: pgsql
+          DB_PORT: 5432
+          DB_DATABASE: hexlet
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
         with:
           coverageCommand: make test-coverage
           coverageLocations: ${{github.workspace}}/coverage-report:clover
