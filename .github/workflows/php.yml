@@ -32,7 +32,7 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate
 
-      - name: Create Environment
+      - name: Create Environment and Run Test
         env:
           DB_HOST: localhost
           DB_CONNECTION: pgsql
@@ -40,13 +40,12 @@ jobs:
           DB_DATABASE: hexlet
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
-        run: make setup
+        run: |
+          make setup
+          make test
 
       - name: Run Linter
         run: make lint
-
-      - name: Run Test
-        run: make test
 
 
       - name: Test & publish code coverage
