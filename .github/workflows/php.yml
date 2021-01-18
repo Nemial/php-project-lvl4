@@ -34,7 +34,7 @@ jobs:
 
       - name: Create Environment
         env:
-          DB_HOST: pgsql
+          DB_HOST: localhost
           DB_CONNECTION: pgsql
           DB_PORT: 5432
           DB_DATABASE: hexlet
