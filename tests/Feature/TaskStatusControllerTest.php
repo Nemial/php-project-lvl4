@@ -11,22 +11,9 @@ class TaskStatusControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private int $id;
-    private $user;
     protected $seed = true;
-
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $user = User::factory()->make();
-        $this->user = $user;
-        $this->id = TaskStatus::first()->id;
-    }
+    private int $id;
+    private User $user;
 
     public function testIndex()
     {
@@ -79,5 +66,18 @@ class TaskStatusControllerTest extends TestCase
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseMissing('task_statuses', ['id' => $this->id]);
+    }
+
+    /**
+     * A basic feature test example.
+     *
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $user = User::factory()->make();
+        $this->user = $user;
+        $this->id = TaskStatus::first()->id;
     }
 }

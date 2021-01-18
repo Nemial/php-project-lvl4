@@ -15,10 +15,12 @@ class TaskStatusSeeder extends Seeder
     public function run()
     {
         $statuses = collect(['Новый', 'В работе', 'На тестировании', 'Завершён']);
-        $statuses->map(function ($statusName) {
-            $taskStatus = new TaskStatus();
-            $taskStatus->name = $statusName;
-            $taskStatus->save();
-        });
+        $statuses->map(
+            function ($statusName) {
+                $taskStatus = new TaskStatus();
+                $taskStatus->name = $statusName;
+                $taskStatus->save();
+            }
+        );
     }
 }

@@ -7,7 +7,8 @@
             <p class="lead">{{__('home.description')}}</p>
             <hr class="my-4">
             <p>{{__('home.project')}}</p>
-            <a class="btn btn-primary btn-lg" href="https://github.com/Nemial/php-project-lvl4">{{__('home.button')}}</a>
+            <a class="btn btn-primary btn-lg"
+               href="https://github.com/Nemial/php-project-lvl4">{{__('home.button')}}</a>
         </div>
     </div>
 @endsection
