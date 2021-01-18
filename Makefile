@@ -1,7 +1,5 @@
 setup:
 	composer install
-	npm install
-	npm run watch
 	cp -n .env.example .env || true
 	php artisan key:gen --ansi
 	touch database/database.sqlite
@@ -20,3 +18,6 @@ test-coverage:
 	composer phpunit -- tests --whitelist tests --coverage-clover coverage-report
 test:
 	php artisan test
+build:
+	npm install
+	npm run watch

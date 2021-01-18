@@ -7,5 +7,5 @@ return [
     'action' => 'Action',
     'edit' => 'Edit',
     'delete' => 'Delete',
-    'create' => 'Create task'
+    'create' => 'Create Task'
 ];
