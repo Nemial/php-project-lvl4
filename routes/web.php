@@ -24,10 +24,16 @@ Route::get(
 
 Auth::routes();
 
+
 Route::middleware('auth')->group(
     function () {
-        Route::resource('task_statuses', TaskStatusController::class)->only(['create', 'store', 'edit', 'destroy']);
+        Route::resource('task_statuses', TaskStatusController::class)->only(
+            ['create', 'store', 'edit', 'update', 'destroy']
+        );
     }
 );
-Route::resource('task_statuses', TaskStatusController::class);
+
+Route::resource('task_statuses', TaskStatusController::class)->except(
+    ['create', 'store', 'edit', 'update', 'destroy']
+);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
