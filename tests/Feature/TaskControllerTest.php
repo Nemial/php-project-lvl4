@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Models\TaskStatus;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class TaskStatusControllerTest extends TestCase
+class TaskControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -20,19 +20,19 @@ class TaskStatusControllerTest extends TestCase
         parent::setUp();
         $user = User::factory()->make();
         $this->user = $user;
-        $this->id = TaskStatus::first()->id;
+        $this->id = Task::first()->id;
     }
 
     public function testIndex()
     {
-        $response = $this->get(route('task_statuses.index'));
+        $response = $this->get(route('tasks.index'));
 
         $response->assertOk();
     }
 
     public function testCreate()
     {
-        $response = $this->actingAs($this->user)->get(route('task_statuses.create'));
+        $response = $this->actingAs($this->user)->get(route('tasks.create'));
 
         $response->assertOk();
     }
@@ -40,21 +40,21 @@ class TaskStatusControllerTest extends TestCase
     public function testStore()
     {
         $data = ['name' => 'Тестовый'];
-        $response = $this->actingAs($this->user)->post(route('task_statuses.store'), $data);
+        $response = $this->actingAs($this->user)->post(route('tasks.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => 'Тестовый']);
+        $this->assertDatabaseHas('tasks', ['name' => 'Тестовый']);
     }
 
     public function testShow()
     {
-        $response = $this->get(route("task_statuses.show", $this->id));
+        $response = $this->get(route("tasks.show", $this->id));
         $response->assertOk();
     }
 
     public function testEdit()
     {
-        $response = $this->actingAs($this->user)->get(route('task_statuses.edit', $this->id));
+        $response = $this->actingAs($this->user)->get(route('tasks.edit', $this->id));
 
         $response->assertOk();
     }
@@ -62,17 +62,17 @@ class TaskStatusControllerTest extends TestCase
     public function testUpdate()
     {
         $data = ['name' => 'Изменённый'];
-        $response = $this->actingAs($this->user)->put(route('task_statuses.update', $this->id), $data);
+        $response = $this->actingAs($this->user)->put(route('tasks.update', $this->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => 'Изменённый']);
+        $this->assertDatabaseHas('tasks', ['name' => 'Изменённый']);
     }
 
     public function testDestroy()
     {
-        $response = $this->actingAs($this->user)->delete(route('task_statuses.destroy', $this->id));
+        $response = $this->delete(route('tasks.destroy', $this->id));
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseMissing('task_statuses', ['id' => $this->id]);
+        $this->assertDatabaseMissing('tasks', ['id' => $this->id]);
     }
 }

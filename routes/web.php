@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskStatusController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,10 +31,18 @@ Route::middleware('auth')->group(
         Route::resource('task_statuses', TaskStatusController::class)->only(
             ['create', 'store', 'edit', 'update', 'destroy']
         );
+        Route::resource('tasks', TaskController::class)->only(
+            ['create', 'store', 'edit', 'update', 'destroy']
+        );
     }
 );
 
 Route::resource('task_statuses', TaskStatusController::class)->except(
     ['create', 'store', 'edit', 'update', 'destroy']
 );
+
+Route::resource('tasks', TaskController::class)->except(
+    ['create', 'store', 'edit', 'update', 'destroy']
+);
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

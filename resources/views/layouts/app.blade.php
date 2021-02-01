@@ -39,8 +39,13 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
+                        <a class="nav-link {{\Illuminate\Support\Facades\Request::path() === 'tasks' ? 'active' : ''}}"
+                           href="{{ route('tasks.index') }}">{{__('home.task')}}</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{\Illuminate\Support\Facades\Request::path() === 'task_statuses' ? 'active' : ''}}"
-                           href="{{ route('task_statuses.index') }}">tasksStatuses</a>
+                           href="{{ route('task_statuses.index') }}">{{__('home.status')}}</a>
+
                     </li>
                 </ul>
 
