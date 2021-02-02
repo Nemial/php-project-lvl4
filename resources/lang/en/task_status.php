@@ -8,5 +8,5 @@ return [
     'index.action' => 'Action',
     'index.edit' => 'Edit',
     'index.delete' => 'Delete',
-    'index.create' => 'Create Task'
+    'index.create' => 'Create TaskStatus'
 ];

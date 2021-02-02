@@ -3,7 +3,7 @@
 @section('content')
     <h1 class="mb-5">Tasks</h1>
     @auth()
-        <a href="{{route('task_statuses.create')}}" class="btn btn-primary mb-2">{{__('task_status.index.create')}}</a>
+        <a href="{{route('tasks.create')}}" class="btn btn-primary mb-2">{{__('tasks.index.create')}}</a>
     @endauth
     <table class="table table-striped">
         <thead class="thead-dark">
@@ -24,14 +24,19 @@
             <tr>
                 <td>{{$task->id}}</td>
                 <td>{{$task->name}}</td>
+                <td>{{$task->status_id}}</td>
+                <td>{{$task->created_by_id}}</td>
+                <td>{{$task->assigned_to_id}}</td>
                 <td>{{$task->created_at}}</td>
                 @auth()
                     <td>
                         <a href="{{route('tasks.edit', $task->id)}}"
                            class="text-primary">{{__('tasks.index.edit')}}</a>
-                        <a href="{{route('tasks.destroy', $task->id)}}" class="text-danger"
-                           data-method="delete" rel="nofollow"
-                           data-confirm="Are you sure?">{{__('tasks.index.delete')}}</a>
+                        @can('delete', $task)
+                            <a href="{{route('tasks.destroy', $task->id)}}" class="text-danger"
+                               data-method="delete" rel="nofollow"
+                               data-confirm="Are you sure?">{{__('tasks.index.delete')}}</a>
+                        @endcan
                     </td>
                 @endauth
             </tr>

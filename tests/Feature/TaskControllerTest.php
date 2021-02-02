@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class TaskControllerTest extends TestCase
@@ -18,9 +19,17 @@ class TaskControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $user = User::factory()->make();
+        $user = User::factory()->create();
         $this->user = $user;
-        $this->id = Task::first()->id;
+        $this->id = DB::table('tasks')->insertGetId(
+            [
+                'name' => 'Test',
+                'status_id' => 1,
+                'description' => 'Test description',
+                'created_by_id' => $this->user->id,
+                'assigned_to_id' => $this->user->id
+            ]
+        );
     }
 
     public function testIndex()
@@ -39,11 +48,17 @@ class TaskControllerTest extends TestCase
 
     public function testStore()
     {
-        $data = ['name' => 'Тестовый'];
+        $data = [
+            'name' => 'StoreTest',
+            'status_id' => 3,
+            'description' => 'It is stored test task',
+            'created_by_id' => $this->user->id,
+            'assigned_to_id' => $this->user->id
+        ];
         $response = $this->actingAs($this->user)->post(route('tasks.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('tasks', ['name' => 'Тестовый']);
+        $this->assertDatabaseHas('tasks', ['name' => 'StoreTest']);
     }
 
     public function testShow()
@@ -61,18 +76,19 @@ class TaskControllerTest extends TestCase
 
     public function testUpdate()
     {
-        $data = ['name' => 'Изменённый'];
+        $data = ['name' => 'TestUpdated', 'status_id' => '2', 'created_by_id' => $this->user->id];
         $response = $this->actingAs($this->user)->put(route('tasks.update', $this->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('tasks', ['name' => 'Изменённый']);
+        $this->assertDatabaseHas('tasks', ['name' => 'TestUpdated']);
     }
 
     public function testDestroy()
     {
-        $response = $this->delete(route('tasks.destroy', $this->id));
+        $task = Task::findOrFail($this->id);
+        $response = $this->actingAs($this->user)->delete(route('tasks.destroy', $task));
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseMissing('tasks', ['id' => $this->id]);
+        $this->assertDeleted($task);
     }
 }

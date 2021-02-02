@@ -70,9 +70,10 @@ class TaskStatusControllerTest extends TestCase
 
     public function testDestroy()
     {
-        $response = $this->actingAs($this->user)->delete(route('task_statuses.destroy', $this->id));
+        $status = TaskStatus::findOrFail($this->id);
+        $response = $this->actingAs($this->user)->delete(route('task_statuses.destroy', $status));
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseMissing('task_statuses', ['id' => $this->id]);
+        $this->assertDeleted($status);
     }
 }

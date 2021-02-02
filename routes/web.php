@@ -32,8 +32,10 @@ Route::middleware('auth')->group(
             ['create', 'store', 'edit', 'update', 'destroy']
         );
         Route::resource('tasks', TaskController::class)->only(
-            ['create', 'store', 'edit', 'update', 'destroy']
+            ['create', 'store', 'edit', 'update']
         );
+        Route::resource('tasks', TaskController::class)->only('destroy')
+            ->middleware('can:delete,task');
     }
 );
 

@@ -28,11 +28,29 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Task whereStatusId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Task whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User $author
+ * @property-read \App\Models\User|null $executor
+ * @property-read \App\Models\TaskStatus $taskStatus
  */
 class Task extends Model
 {
     use HasFactory;
 
     protected $fillable = ['name', 'description', 'status_id', 'created_by_id', 'assigned_to_id'];
+
+    public function executor()
+    {
+        return $this->belongsTo(User::class, 'assigned_to_id');
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    public function taskStatus()
+    {
+        return $this->belongsTo(TaskStatus::class, 'status_id');
+    }
 
 }
