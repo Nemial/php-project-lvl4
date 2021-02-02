@@ -11,5 +11,8 @@ return [
     'index.action' => 'Action',
     'index.edit' => 'Edit',
     'index.delete' => 'Delete',
-    'index.create' => 'Create Task'
+    'index.create' => 'Create Task',
+    'show.page' => 'Viewing a task',
+    'show.description' => 'Description',
+    'show.status' => 'Status'
 ];
