@@ -76,7 +76,12 @@ class TaskControllerTest extends TestCase
 
     public function testUpdate()
     {
-        $data = ['name' => 'TestUpdated', 'status_id' => '2', 'created_by_id' => $this->user->id];
+        $data = [
+            'name' => 'TestUpdated',
+            'status_id' => '2',
+            'created_by_id' => $this->user->id,
+            'assigned_to_id' => $this->user->id
+        ];
         $response = $this->actingAs($this->user)->put(route('tasks.update', $this->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
