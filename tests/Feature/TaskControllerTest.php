@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Task;
+use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
@@ -12,19 +13,19 @@ class TaskControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $seed = true;
     private int $id;
     private User $user;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $user = User::factory()->create();
-        $this->user = $user;
+        $this->seed();
+        $this->user = User::factory()->create();
+        $status = TaskStatus::where('name', 'Новый')->first();
         $this->id = DB::table('tasks')->insertGetId(
             [
                 'name' => 'Test',
-                'status_id' => 1,
+                'status_id' => $status->id,
                 'description' => 'Test description',
                 'created_by_id' => $this->user->id,
                 'assigned_to_id' => $this->user->id
@@ -48,9 +49,10 @@ class TaskControllerTest extends TestCase
 
     public function testStore()
     {
+        $status = TaskStatus::where('name', 'На тестировании')->first();
         $data = [
             'name' => 'StoreTest',
-            'status_id' => 3,
+            'status_id' => $status->id,
             'description' => 'It is stored test task',
             'created_by_id' => $this->user->id,
             'assigned_to_id' => $this->user->id
@@ -76,9 +78,10 @@ class TaskControllerTest extends TestCase
 
     public function testUpdate()
     {
+        $status = TaskStatus::where('name', 'В работе')->first();
         $data = [
             'name' => 'TestUpdated',
-            'status_id' => '2',
+            'status_id' => $status->id,
             'created_by_id' => $this->user->id,
             'assigned_to_id' => $this->user->id
         ];

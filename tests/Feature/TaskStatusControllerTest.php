@@ -11,15 +11,14 @@ class TaskStatusControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $seed = true;
     private int $id;
     private User $user;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $user = User::factory()->make();
-        $this->user = $user;
+        $this->seed();
+        $this->user = User::factory()->make();
         $this->id = TaskStatus::first()->id;
     }
 

@@ -6,5 +6,6 @@ return [
     'project' => 'Study Project',
     'button' => 'Learn more',
     'status' => 'tasksStatuses',
+    'labels' => 'labels',
     'task' => 'task'
 ];

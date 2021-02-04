@@ -47,6 +47,11 @@
                            href="{{ route('task_statuses.index') }}">{{__('home.status')}}</a>
 
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{\Illuminate\Support\Facades\Request::path() === 'labels' ? 'active' : ''}}"
+                           href="{{ route('labels.index') }}">{{__('home.labels')}}</a>
+
+                    </li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

@@ -41,6 +41,7 @@ class TaskStatusController extends Controller
         $taskStatus = new TaskStatus();
         $taskStatus->fill($data);
         $taskStatus->save();
+        flash('Task Status has been stored')->success();
         return redirect()->route('task_statuses.index');
     }
 
