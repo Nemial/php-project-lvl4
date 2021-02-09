@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskStoreRequest;
+use App\Models\Label;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class TaskController extends Controller
 {
@@ -30,7 +32,8 @@ class TaskController extends Controller
         $task = new Task();
         $statuses = TaskStatus::pluck('name', 'id');
         $users = User::pluck('name', 'id');
-        return view('task.create', ['task' => $task, 'statuses' => $statuses, 'users' => $users]);
+        $labels = Label::pluck('name', 'id');
+        return view('task.create', ['task' => $task, 'statuses' => $statuses, 'users' => $users, 'labels' => $labels]);
     }
 
     /**
@@ -47,6 +50,16 @@ class TaskController extends Controller
         $task = new Task();
         $task->fill($data);
         $task->save();
+
+        if ($request->exists('labels')) {
+            $labels = $request->input('labels');
+            collect($labels)->map(
+                function ($labelId) use ($task) {
+                    DB::table('task_label')->insert(['task_id' => $task->id, 'label_id' => $labelId]);
+                }
+            );
+        }
+
         flash('Task has been stored')->success();
         return redirect()->route('tasks.index');
     }
@@ -72,7 +85,8 @@ class TaskController extends Controller
     {
         $statuses = TaskStatus::pluck('name', 'id');
         $users = User::pluck('name', 'id');
-        return view('task.edit', ['task' => $task, 'statuses' => $statuses, 'users' => $users]);
+        $labels = Label::pluck('name', 'id');
+        return view('task.edit', ['task' => $task, 'statuses' => $statuses, 'users' => $users, 'labels' => $labels]);
     }
 
     /**
@@ -88,6 +102,17 @@ class TaskController extends Controller
         $data = $request->validated();
         $task->fill($data);
         $task->save();
+        $updatedLabels = $request->input('labels');
+        $oldLabel = $task->labels()->pluck('label_id');
+        $newLabel = array_diff($updatedLabels, $oldLabel->toArray());
+        if (!empty($newLabel)) {
+            collect($newLabel)->map(
+                function ($labelId) use ($task) {
+                    DB::table('task_label')->insert(['task_id' => $task->id, 'label_id' => $labelId]);
+                }
+            );
+        }
+        DB::table('task_label')->whereNotIn('label_id', $updatedLabels)->delete();
         flash('Task has been edited')->success();
         return redirect()->route('tasks.index');
     }

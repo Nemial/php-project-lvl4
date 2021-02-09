@@ -31,6 +31,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \App\Models\User $author
  * @property-read \App\Models\User|null $executor
  * @property-read \App\Models\TaskStatus $taskStatus
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Label[] $labels
+ * @property-read int|null $labels_count
+ * @property-read \App\Models\TaskStatus $status
  */
 class Task extends Model
 {
@@ -51,6 +54,11 @@ class Task extends Model
     public function status()
     {
         return $this->belongsTo(TaskStatus::class, 'status_id');
+    }
+
+    public function labels()
+    {
+        return $this->belongsToMany(Label::class, 'task_label');
     }
 
 }

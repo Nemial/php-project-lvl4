@@ -14,5 +14,6 @@ return [
     'index.create' => 'Create Task',
     'show.page' => 'Viewing a task',
     'show.description' => 'Description',
+    'show.labels' => 'Labels',
     'show.status' => 'Status'
 ];

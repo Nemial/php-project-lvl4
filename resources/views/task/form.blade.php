@@ -14,3 +14,7 @@
     {{Form::label('assigned_to_id', 'Executor')}}
     {{Form::select('assigned_to_id', $users, null, ['class' => 'form-control'])}}
 </div>
+<div class="form-group">
+    {{Form::label('labels', 'Labels')}}
+    {{Form::select('labels[]', $labels, null, ['class' => 'form-control', 'multiple' => true])}}
+</div>
