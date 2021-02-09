@@ -102,17 +102,20 @@ class TaskController extends Controller
         $data = $request->validated();
         $task->fill($data);
         $task->save();
-        $updatedLabels = $request->input('labels');
-        $oldLabel = $task->labels()->pluck('label_id');
-        $newLabel = array_diff($updatedLabels, $oldLabel->toArray());
-        if (!empty($newLabel)) {
-            collect($newLabel)->map(
-                function ($labelId) use ($task) {
-                    DB::table('task_label')->insert(['task_id' => $task->id, 'label_id' => $labelId]);
-                }
-            );
+        if ($request->exists('labels')) {
+            $updatedLabels = $request->input('labels');
+            $oldLabel = $task->labels()->pluck('label_id');
+            $newLabel = array_diff($updatedLabels, $oldLabel->toArray());
+            if (!empty($newLabel)) {
+                collect($newLabel)->map(
+                    function ($labelId) use ($task) {
+                        DB::table('task_label')->insert(['task_id' => $task->id, 'label_id' => $labelId]);
+                    }
+                );
+            }
+            DB::table('task_label')->whereNotIn('label_id', $updatedLabels)->delete();
         }
-        DB::table('task_label')->whereNotIn('label_id', $updatedLabels)->delete();
+
         flash('Task has been edited')->success();
         return redirect()->route('tasks.index');
     }
