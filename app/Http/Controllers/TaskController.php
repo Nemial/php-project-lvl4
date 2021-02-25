@@ -8,6 +8,8 @@ use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
@@ -18,8 +20,29 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::paginate();
-        return view('task.index', ['tasks' => $tasks]);
+        $tasks = QueryBuilder::for(Task::class)->allowedFilters(
+            [
+                AllowedFilter::exact('status_id'),
+                AllowedFilter::exact('created_by_id'),
+                AllowedFilter::exact('assigned_to_id')
+            ]
+        )->paginate();
+        $statuses = Task::leftJoin('task_statuses', 'tasks.status_id', '=', 'task_statuses.id')->select(
+            'task_statuses.id as status_id',
+            'task_statuses.name as status_name'
+        )->distinct()->pluck('status_name', 'status_id');
+        $executors = Task::leftJoin('users', 'tasks.assigned_to_id', '=', 'users.id')->select(
+            'users.id as executor_id',
+            'users.name as executor_name'
+        )->distinct()->pluck('executor_name', 'executor_id');
+        $authors = Task::leftJoin('users', 'tasks.created_by_id', '=', 'users.id')->select(
+            'users.id as author_id',
+            'users.name as author_name'
+        )->distinct()->pluck('author_name', 'author_id');
+        return view(
+            'task.index',
+            ['tasks' => $tasks, 'authors' => $authors, 'executors' => $executors, 'statuses' => $statuses]
+        );
     }
 
     /**

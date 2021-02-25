@@ -2,6 +2,22 @@
 
 @section('content')
     <h1 class="mb-5">Tasks</h1>
+    <div class="mb-3">    {{Form::open(['url' => route('tasks.index'), 'method' => 'get', 'class' => 'form-inline'])}}
+        <div class="form-group">
+            {{Form::label('status_id', __('form.status'), ['class' => 'mr-1'])}}
+            {{Form::select('filter[status_id]', $statuses, null, ['class' => 'form-control mr-2'])}}
+        </div>
+        <div class="form-group">
+            {{Form::label('created_by_id', __('form.author'), ['class' => 'mr-1'])}}
+            {{Form::select('filter[created_by_id]', $authors, null, ['class' => 'form-control mr-2'])}}
+        </div>
+        <div class="form-group">
+            {{Form::label('assigned_to_id', __('form.executor'), ['class' => 'mr-1'])}}
+            {{Form::select('filter[assigned_to_id]', $executors, null, ['class' => 'form-control mr-2'])}}
+        </div>
+        {{Form::submit(__('form.apply'))}}
+        {{Form::close()}}</div>
+
     @auth()
         <a href="{{route('tasks.create')}}" class="btn btn-primary mb-2">{{__('tasks.index.create')}}</a>
     @endauth
