@@ -17,7 +17,6 @@ This is a simple implementation of a regular task manager.
 3. Enjoy!!!
     ````
     make start
-
 ### Requirements
 * Make
 * PHP >= 7.4
