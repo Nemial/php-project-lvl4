@@ -65,6 +65,7 @@
             "@php artisan key:generate --ansi"
         ],
         "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
         "phpunit": "phpunit"
     }
 }

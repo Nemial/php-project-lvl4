@@ -15,12 +15,12 @@ return [
 
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'login' => 'Login',
-    'register' => 'Register',
-    'logout' => 'Logout',
-    'password' => 'Password',
-    'conf_password' => 'Confirm Password',
-    'name' => 'Name',
-    'remember_me' => 'Remember Me',
-    'frgt_pswd' => 'Forgot Your Password?'
+    'login' => 'Войти',
+    'register' => 'Зарегистрироваться',
+    'logout' => 'Выйти',
+    'password' => 'Пароль',
+    'conf_password' => 'Подтверждение пароля',
+    'name' => 'Имя',
+    'remember_me' => 'Запомнить меня',
+    'frgt_pswd' => 'Забыли пароль?'
 ];

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Data;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,4 +27,6 @@ class Label extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
+
+    protected $casts = ['created_at' => Data::class];
 }

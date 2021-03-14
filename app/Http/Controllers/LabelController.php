@@ -41,7 +41,7 @@ class LabelController extends Controller
         $label = new Label();
         $label->fill($data);
         $label->save();
-        flash('Labels has been stored')->success();
+        flash(__('flash.label.stored'))->success();
         return redirect()->route('labels.index');
     }
 
@@ -79,7 +79,7 @@ class LabelController extends Controller
         $data = $request->validated();
         $label->fill($data);
         $label->save();
-        flash('Labels has been updated')->success();
+        flash(__('flash.label.edited'))->success();
         return redirect()->route('labels.index');
     }
 
@@ -91,8 +91,12 @@ class LabelController extends Controller
      */
     public function destroy(Label $label)
     {
+        if (\DB::table('task_label')->where('label_id', $label->id)->exists()) {
+            flash(__('flash.label.used'))->error();
+            return redirect()->route('labels.index');
+        }
         $label->delete();
-        flash('Labels has been deleted')->success();
+        flash(__('flash.label.destroyed'))->success();
         return redirect()->route('labels.index');
     }
 }

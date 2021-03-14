@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Data;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -41,6 +42,8 @@ class Task extends Model
 
     protected $fillable = ['name', 'description', 'status_id', 'created_by_id', 'assigned_to_id'];
 
+    protected $casts = ['created_at' => Data::class];
+
     public function executor()
     {
         return $this->belongsTo(User::class, 'assigned_to_id');
@@ -60,5 +63,4 @@ class Task extends Model
     {
         return $this->belongsToMany(Label::class, 'task_label');
     }
-
 }

@@ -41,7 +41,7 @@ class TaskStatusController extends Controller
         $taskStatus = new TaskStatus();
         $taskStatus->fill($data);
         $taskStatus->save();
-        flash('Task Status has been stored')->success();
+        flash(__('flash.task_status.stored'))->success();
         return redirect()->route('task_statuses.index');
     }
 
@@ -79,7 +79,7 @@ class TaskStatusController extends Controller
         $data = $request->validated();
         $taskStatus->fill($data);
         $taskStatus->save();
-        flash('Status has been edited')->success();
+        flash(__('flash.task_status.edited'))->success();
         return redirect()->route('task_statuses.index');
     }
 
@@ -91,8 +91,12 @@ class TaskStatusController extends Controller
      */
     public function destroy(TaskStatus $taskStatus)
     {
+        if (\DB::table('tasks')->where('status_id', $taskStatus->id)->exists()) {
+            flash(__('flash.task_status.used'))->error();
+            return redirect()->route('task_statuses.index');
+        }
         $taskStatus->delete();
-        flash('Status has been deleted')->success();
+        flash(__('flash.task_status.destroyed'))->success();
         return redirect()->route('task_statuses.index');
     }
 }

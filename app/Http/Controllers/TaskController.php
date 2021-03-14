@@ -31,17 +31,25 @@ class TaskController extends Controller
             'task_statuses.id as status_id',
             'task_statuses.name as status_name'
         )->distinct()->pluck('status_name', 'status_id');
+        $statusesWithPlaceholder = array_merge(['' => __('tasks.index.status_id')], $statuses->toArray());
         $executors = Task::leftJoin('users', 'tasks.assigned_to_id', '=', 'users.id')->select(
             'users.id as executor_id',
             'users.name as executor_name'
         )->distinct()->pluck('executor_name', 'executor_id');
+        $executorsWithPlaceholder = array_merge(['' => __('tasks.index.executor')], $executors->toArray());
         $authors = Task::leftJoin('users', 'tasks.created_by_id', '=', 'users.id')->select(
             'users.id as author_id',
             'users.name as author_name'
         )->distinct()->pluck('author_name', 'author_id');
+        $authorsWithPlaceholder = array_merge(['' => __('tasks.index.author')], $authors->toArray());
         return view(
             'task.index',
-            ['tasks' => $tasks, 'authors' => $authors, 'executors' => $executors, 'statuses' => $statuses]
+            [
+                'tasks' => $tasks,
+                'authors' => $authorsWithPlaceholder,
+                'executors' => $executorsWithPlaceholder,
+                'statuses' => $statusesWithPlaceholder
+            ]
         );
     }
 
@@ -83,7 +91,7 @@ class TaskController extends Controller
             );
         }
 
-        flash('Task has been stored')->success();
+        flash(__('flash.task.stored'))->success();
         return redirect()->route('tasks.index');
     }
 
@@ -136,10 +144,10 @@ class TaskController extends Controller
                     }
                 );
             }
-            DB::table('task_label')->whereNotIn('label_id', $updatedLabels)->delete();
+            DB::table('task_label')->where('task_id', $task->id)->whereNotIn('label_id', $updatedLabels)->delete();
         }
 
-        flash('Task has been edited')->success();
+        flash(__('flash.task.edited'))->success();
         return redirect()->route('tasks.index');
     }
 
@@ -153,7 +161,7 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $task->delete();
-        flash('Task has been destroyed')->success();
+        flash(__('flash.task.destroyed'))->success();
         return redirect()->route('tasks.index');
     }
 }

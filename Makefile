@@ -5,9 +5,9 @@ setup:
 	touch database/database.sqlite
 	php artisan migrate --seed
 lint:
-	composer phpcs -- --standard=PSR12 tests routes
+	composer phpcs --
 lint-fix:
-	composer phpcbf
+	composer phpcbf --
 deploy:
 	git push heroku
 log:

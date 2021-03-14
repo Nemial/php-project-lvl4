@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PHP_CodeSniffer" xsi:noNamespaceSchemaLocation="phpcs.xsd">
+    <description>The coding standard PSR12 for PHP_CodeSniffer itself.</description>
+
+    <file>app</file>
+    <file>database</file>
+    <file>routes</file>
+    <file>tests</file>
+
+    <arg name="basepath" value="."/>
+
+    <rule ref="PSR12"/>
+    <rule ref="PSR1.Classes.ClassDeclaration">
+        <exclude-pattern>*/database/migrations/*</exclude-pattern>
+    </rule>
+</ruleset>
