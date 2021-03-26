@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskStatusStoreRequest;
+use App\Models\Task;
 use App\Models\TaskStatus;
 
 class TaskStatusController extends Controller
@@ -15,7 +16,7 @@ class TaskStatusController extends Controller
     public function index()
     {
         $taskStatuses = TaskStatus::paginate();
-        return view('task_status.index', ['taskStatuses' => $taskStatuses]);
+        return view('task_status.index', compact('taskStatuses'));
     }
 
     /**
@@ -26,7 +27,7 @@ class TaskStatusController extends Controller
     public function create()
     {
         $taskStatus = new TaskStatus();
-        return view('task_status.create', ['taskStatus' => $taskStatus]);
+        return view('task_status.create', compact('taskStatus'));
     }
 
     /**
@@ -46,17 +47,6 @@ class TaskStatusController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\TaskStatus $taskStatus
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
-     */
-    public function show(TaskStatus $taskStatus)
-    {
-        return view('task_status.show', ['taskStatus' => $taskStatus]);
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param \App\Models\TaskStatus $taskStatus
@@ -64,7 +54,7 @@ class TaskStatusController extends Controller
      */
     public function edit(TaskStatus $taskStatus)
     {
-        return view('task_status.edit', ['taskStatus' => $taskStatus]);
+        return view('task_status.edit', compact('taskStatus'));
     }
 
     /**
@@ -91,7 +81,7 @@ class TaskStatusController extends Controller
      */
     public function destroy(TaskStatus $taskStatus)
     {
-        if (\DB::table('tasks')->where('status_id', $taskStatus->id)->exists()) {
+        if (Task::where('status_id', $taskStatus->id)->exists()) {
             flash(__('flash.task_status.used'))->error();
             return redirect()->route('task_statuses.index');
         }

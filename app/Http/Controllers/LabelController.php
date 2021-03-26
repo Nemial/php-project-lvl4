@@ -15,7 +15,7 @@ class LabelController extends Controller
     public function index()
     {
         $labels = Label::paginate();
-        return view('label.index', ['labels' => $labels]);
+        return view('label.index', compact('labels'));
     }
 
     /**
@@ -26,7 +26,7 @@ class LabelController extends Controller
     public function create()
     {
         $label = new Label();
-        return view('label.create', ['label' => $label]);
+        return view('label.create', compact('label'));
     }
 
     /**
@@ -53,7 +53,7 @@ class LabelController extends Controller
      */
     public function show(Label $label)
     {
-        return view('label.show', ['label' => $label]);
+        return view('label.show', compact('label'));
     }
 
     /**
@@ -64,7 +64,7 @@ class LabelController extends Controller
      */
     public function edit(Label $label)
     {
-        return view('label.edit', ['label' => $label]);
+        return view('label.edit', compact('label'));
     }
 
     /**

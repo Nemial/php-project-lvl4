@@ -4,13 +4,13 @@
     <h1 class="mb-5">@lang('tasks.index.page_name')</h1>
     <div class="mb-3">    {{Form::open(['url' => route('tasks.index'), 'method' => 'get', 'class' => 'form-inline'])}}
         <div class="form-group">
-            {{Form::select('filter[status_id]', $statuses, '', ['class' => 'form-control mr-2'])}}
+            {{Form::select('filter[status_id]', $statuses, $filter['status_id'] ?? '', ['class' => 'form-control mr-2', 'placeholder' => __('tasks.index.status_id')])}}
         </div>
         <div class="form-group">
-            {{Form::select('filter[created_by_id]', $authors, '', ['class' => 'form-control mr-2'])}}
+            {{Form::select('filter[created_by_id]', $users, $filter['created_by_id'] ?? '', ['class' => 'form-control mr-2', 'placeholder' => __('tasks.index.executor')])}}
         </div>
         <div class="form-group">
-            {{Form::select('filter[assigned_to_id]', $executors, '', ['class' => 'form-control mr-2'])}}
+            {{Form::select('filter[assigned_to_id]', $users, $filter['assigned_to_id'] ?? '', ['class' => 'form-control mr-2', 'placeholder' => __('tasks.index.author')])}}
         </div>
         {{Form::submit(__('form.apply'))}}
         {{Form::close()}}</div>

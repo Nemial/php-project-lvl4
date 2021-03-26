@@ -10,7 +10,7 @@ return [
     'index.created_at' => 'Дата создания',
     'index.action' => 'Действия',
     'index.edit' => 'Редактировать',
-    'index.delete' => 'Delete',
+    'index.delete' => 'Удалить',
     'index.create' => 'Создать задачу',
     'show.page' => 'Посмотреть задачу',
     'show.description' => 'Описание',

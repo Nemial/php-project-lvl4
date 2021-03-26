@@ -7,6 +7,7 @@ use App\Models\Label;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -18,7 +19,7 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $tasks = QueryBuilder::for(Task::class)->allowedFilters(
             [
@@ -27,30 +28,10 @@ class TaskController extends Controller
                 AllowedFilter::exact('assigned_to_id')
             ]
         )->paginate();
-        $statuses = Task::leftJoin('task_statuses', 'tasks.status_id', '=', 'task_statuses.id')->select(
-            'task_statuses.id as status_id',
-            'task_statuses.name as status_name'
-        )->distinct()->pluck('status_name', 'status_id');
-        $statusesWithPlaceholder = array_merge(['' => __('tasks.index.status_id')], $statuses->toArray());
-        $executors = Task::leftJoin('users', 'tasks.assigned_to_id', '=', 'users.id')->select(
-            'users.id as executor_id',
-            'users.name as executor_name'
-        )->distinct()->pluck('executor_name', 'executor_id');
-        $executorsWithPlaceholder = array_merge(['' => __('tasks.index.executor')], $executors->toArray());
-        $authors = Task::leftJoin('users', 'tasks.created_by_id', '=', 'users.id')->select(
-            'users.id as author_id',
-            'users.name as author_name'
-        )->distinct()->pluck('author_name', 'author_id');
-        $authorsWithPlaceholder = array_merge(['' => __('tasks.index.author')], $authors->toArray());
-        return view(
-            'task.index',
-            [
-                'tasks' => $tasks,
-                'authors' => $authorsWithPlaceholder,
-                'executors' => $executorsWithPlaceholder,
-                'statuses' => $statusesWithPlaceholder
-            ]
-        );
+        $statuses = TaskStatus::pluck('name', 'id');
+        $users = User::pluck('name', 'id');
+        $filter = $request->input('filter', []);
+        return view('task.index', compact('tasks', 'users', 'statuses', 'filter'));
     }
 
     /**
@@ -64,7 +45,7 @@ class TaskController extends Controller
         $statuses = TaskStatus::pluck('name', 'id');
         $users = User::pluck('name', 'id');
         $labels = Label::pluck('name', 'id');
-        return view('task.create', ['task' => $task, 'statuses' => $statuses, 'users' => $users, 'labels' => $labels]);
+        return view('task.create', compact('task', 'statuses', 'users', 'labels'));
     }
 
     /**
@@ -85,9 +66,7 @@ class TaskController extends Controller
         if ($request->exists('labels')) {
             $labels = $request->input('labels');
             collect($labels)->map(
-                function ($labelId) use ($task) {
-                    DB::table('task_label')->insert(['task_id' => $task->id, 'label_id' => $labelId]);
-                }
+                fn($labelId) => $task->labels()->attach($labels)
             );
         }
 
@@ -103,7 +82,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        return view('task.show', ['task' => $task]);
+        return view('task.show', compact('task'));
     }
 
     /**
@@ -117,7 +96,7 @@ class TaskController extends Controller
         $statuses = TaskStatus::pluck('name', 'id');
         $users = User::pluck('name', 'id');
         $labels = Label::pluck('name', 'id');
-        return view('task.edit', ['task' => $task, 'statuses' => $statuses, 'users' => $users, 'labels' => $labels]);
+        return view('task.edit', compact('task', 'statuses', 'users', 'labels'));
     }
 
     /**
@@ -139,12 +118,10 @@ class TaskController extends Controller
             $newLabel = array_diff($updatedLabels, $oldLabel->toArray());
             if (!empty($newLabel)) {
                 collect($newLabel)->map(
-                    function ($labelId) use ($task) {
-                        DB::table('task_label')->insert(['task_id' => $task->id, 'label_id' => $labelId]);
-                    }
+                    fn($labelId) => $task->labels()->attach($labelId)
                 );
             }
-            DB::table('task_label')->where('task_id', $task->id)->whereNotIn('label_id', $updatedLabels)->delete();
+            Task::whereNotIn('label_id', $updatedLabels)->delete();
         }
 
         flash(__('flash.task.edited'))->success();
