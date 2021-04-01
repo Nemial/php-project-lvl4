@@ -8,12 +8,18 @@ use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(Task::class, 'task');
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *

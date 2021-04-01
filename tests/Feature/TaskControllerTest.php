@@ -35,7 +35,7 @@ class TaskControllerTest extends TestCase
 
     public function testIndex()
     {
-        $response = $this->get(route('tasks.index'));
+        $response = $this->actingAs($this->user)->get(route('tasks.index'));
 
         $response->assertOk();
     }
@@ -65,7 +65,7 @@ class TaskControllerTest extends TestCase
 
     public function testShow()
     {
-        $response = $this->get(route("tasks.show", $this->id));
+        $response = $this->actingAs($this->user)->get(route("tasks.show", $this->id));
         $response->assertOk();
     }
 

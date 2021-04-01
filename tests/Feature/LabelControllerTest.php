@@ -23,7 +23,7 @@ class LabelControllerTest extends TestCase
 
     public function testIndex()
     {
-        $response = $this->get(route('labels.index'));
+        $response = $this->actingAs($this->user)->get(route('labels.index'));
 
         $response->assertOk();
     }
@@ -46,7 +46,7 @@ class LabelControllerTest extends TestCase
 
     public function testShow()
     {
-        $response = $this->get(route("labels.show", $this->id));
+        $response = $this->actingAs($this->user)->get(route("labels.show", $this->id));
         $response->assertOk();
     }
 

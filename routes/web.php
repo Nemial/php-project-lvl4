@@ -26,33 +26,12 @@ Route::get(
 
 Auth::routes();
 
-
-Route::middleware('auth')->group(
-    function () {
-        Route::resource('task_statuses', TaskStatusController::class)->only(
-            ['create', 'store', 'edit', 'update', 'destroy']
-        );
-        Route::resource('labels', LabelController::class)->only(
-            ['create', 'store', 'edit', 'update', 'destroy']
-        );
-        Route::resource('tasks', TaskController::class)->only(
-            ['create', 'store', 'edit', 'update']
-        );
-        Route::resource('tasks', TaskController::class)->only('destroy')
-            ->middleware('can:delete,task');
-    }
-);
-
-Route::resource('task_statuses', TaskStatusController::class)->except(
-    ['create', 'store', 'edit', 'update', 'destroy']
-);
-
-Route::resource('labels', LabelController::class)->except(
-    ['create', 'store', 'edit', 'update', 'destroy']
-);
-
-Route::resource('tasks', TaskController::class)->except(
-    ['create', 'store', 'edit', 'update', 'destroy']
+Route::resources(
+    [
+        'task_statuses' => TaskStatusController::class,
+        'labels' => LabelController::class,
+        'tasks' => TaskController::class
+    ]
 );
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
