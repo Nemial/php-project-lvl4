@@ -35,6 +35,8 @@ use Illuminate\Notifications\Notifiable;
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Task[] $tasks
  * @property-read int|null $tasks_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Task[] $createdTasks
+ * @property-read int|null $created_tasks_count
  */
 class User extends Authenticatable
 {
@@ -71,7 +73,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function tasks()
+    public function createdTasks()
     {
         return $this->hasMany(Task::class, 'created_by_id');
     }

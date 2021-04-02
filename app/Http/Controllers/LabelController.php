@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LabelStoreRequest;
 use App\Models\Label;
+use Illuminate\Http\Request;
 
 class LabelController extends Controller
 {
@@ -38,12 +38,18 @@ class LabelController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param LabelStoreRequest $request
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(LabelStoreRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
+        $data = $this->validate(
+            $request,
+            [
+                'name' => 'required|max:1000'
+            ]
+        );
         $label = new Label();
         $label->fill($data);
         $label->save();
@@ -76,13 +82,19 @@ class LabelController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param LabelStoreRequest $request
+     * @param Request $request
      * @param \App\Models\Label $label
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(LabelStoreRequest $request, Label $label)
+    public function update(Request $request, Label $label)
     {
-        $data = $request->validated();
+        $data = $this->validate(
+            $request,
+            [
+                'name' => 'required|max:1000'
+            ]
+        );
         $label->fill($data);
         $label->save();
         flash(__('flash.label.edited'))->success();

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TaskStoreRequest;
 use App\Models\Label;
 use App\Models\Task;
 use App\Models\TaskStatus;
@@ -57,27 +56,40 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param TaskStoreRequest $request
+     * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(TaskStoreRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
-        $data['created_by_id'] = $request->user()->id;
-        $task = new Task();
-        $task->fill($data);
-        $task->save();
+        $data = $this->validate(
+            $request,
+            [
+                'name' => 'required|string',
+                'description' => 'max:1000|string',
+                'status_id' => 'required|integer',
+                'assigned_to_id' => 'required|integer'
+            ]
+        );
+        $user = \Auth::user();
+        if ($user) {
+            $data['created_by_id'] = $user->id;
+            $task = new Task();
+            $task->fill($data);
+            $task->save();
 
-        if ($request->exists('labels')) {
-            $labels = $request->input('labels');
-            collect($labels)->map(
-                fn($labelId) => $task->labels()->attach($labels)
-            );
+            if ($request->exists('labels')) {
+                $labels = $request->input('labels');
+                collect($labels)->map(
+                    fn($labelId) => $task->labels()->attach($labels)
+                );
+            }
+
+            flash(__('flash.task.stored'))->success();
+            return redirect()->route('tasks.index');
+        } else {
+            throw new \Exception('User not authorized');
         }
-
-        flash(__('flash.task.stored'))->success();
-        return redirect()->route('tasks.index');
     }
 
     /**
@@ -108,14 +120,22 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param TaskStoreRequest $request
+     * @param Request $request
      * @param \App\Models\Task $task
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(TaskStoreRequest $request, Task $task)
+    public function update(Request $request, Task $task)
     {
-        $data = $request->validated();
+        $data = $this->validate(
+            $request,
+            [
+                'name' => 'required|string',
+                'description' => 'max:1000|string',
+                'status_id' => 'required|integer',
+                'assigned_to_id' => 'required|integer'
+            ]
+        );
         $task->fill($data);
         $task->save();
         if ($request->exists('labels')) {
