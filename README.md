@@ -24,4 +24,4 @@ This is a simple implementation of a regular task manager.
 * PostgreSQL >= 12.6
 
 ### Demo on Heroku
-[Task Manager Demo](https://obscure-basin-14138.herokuapp.com/)
+[Task Manager Demo](http://obscure-basin-14138.herokuapp.com/)
