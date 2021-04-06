@@ -16,7 +16,7 @@ return [
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'login' => 'Войти',
-    'register' => 'Зарегистрироваться',
+    'register' => 'Регистрация',
     'logout' => 'Выйти',
     'password' => 'Пароль',
     'conf_password' => 'Подтверждение пароля',
