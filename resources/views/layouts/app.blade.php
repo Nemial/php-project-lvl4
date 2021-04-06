@@ -92,7 +92,7 @@
             </div>
         </div>
     </nav>
-
+    <h1>Привет от Хекслета!</h1>
     <main class="container py-4">
         @section('flash')
             <div class="container">
