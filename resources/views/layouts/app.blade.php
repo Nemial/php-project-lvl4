@@ -65,7 +65,7 @@
 
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
+                                <a class="nav-link" href="{{ route('register') }}">@lang('auth.register')</a>
                             </li>
                         @endif
                     @else
