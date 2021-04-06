@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://obscure-basin-14138.herokuapp.com'),
 
     'asset_url' => env('ASSET_URL', null),
 
