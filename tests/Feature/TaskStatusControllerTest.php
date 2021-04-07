@@ -19,7 +19,9 @@ class TaskStatusControllerTest extends TestCase
         parent::setUp();
         $this->seed();
         $this->user = User::factory()->make();
-        $this->id = TaskStatus::first()->id;
+        $statuses = TaskStatus::get();
+        [$status] = $statuses;
+        $this->id = $status->id;
     }
 
     public function testIndex(): void
