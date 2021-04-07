@@ -1,14 +1,14 @@
 <?php
 return [
-    'task.stored' => 'Задача была создана',
-    'task.edited' => 'Задача была изменена',
-    'task.destroyed' => 'Задача была удалена',
+    'task.stored' => 'Задача успешно создана',
+    'task.edited' => 'Задача успешно изменена',
+    'task.destroyed' => 'Задача успешна удалена',
     'task_status.stored' => 'Статус успешно создан',
-    'task_status.edited' => 'Статус был изменён',
+    'task_status.edited' => 'Статус успешно изменён',
     'task_status.used' => 'Статус используется в задаче',
     'task_status.destroyed' => 'Статус успешно удалён',
-    'label.stored' => 'Метка была создана',
-    'label.edited' => 'Метка была изменена',
+    'label.stored' => 'Метка успешно создана',
+    'label.edited' => 'Метка успешно изменена',
     'label.used' => 'Метка используется в задаче',
-    'label.destroyed' => 'Метка была удалена',
+    'label.destroyed' => 'Метка успешно удалена',
 ];
