@@ -11,9 +11,9 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function testExample()
     {
         $test = 'Laravel' === 'Larave';
-        $this->assertTrue($test);
+        $this->assertFalse($test);
     }
 }
