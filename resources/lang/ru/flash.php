@@ -6,7 +6,7 @@ return [
     'task_status.stored' => 'Статус успешно создан',
     'task_status.edited' => 'Статус был изменён',
     'task_status.used' => 'Статус используется в задаче',
-    'task_status.destroyed' => 'Статус был удалён',
+    'task_status.destroyed' => 'Статус успешно удалён',
     'label.stored' => 'Метка была создана',
     'label.edited' => 'Метка была изменена',
     'label.used' => 'Метка используется в задаче',
