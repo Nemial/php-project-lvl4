@@ -10,6 +10,7 @@
         <tr>
             <th scope="col">{{__('labels.index.id')}}</th>
             <th scope="col">{{__('labels.index.name')}}</th>
+            <th scope="col">{{__('labels.index.description')}}</th>
             <th scope="col">{{__('labels.index.created_at')}}</th>
             @auth()
                 <th scope="col">{{__('labels.index.action')}}</th>
@@ -21,6 +22,7 @@
             <tr>
                 <td>{{$label->id}}</td>
                 <td>{{$label->name}}</td>
+                <td>{{$label->description}}</td>
                 <td>{{$label->created_at}}</td>
                 @auth()
                     <td>

@@ -9,4 +9,5 @@ return [
     'index.action' => 'Действия',
     'index.edit' => 'Изменить',
     'index.delete' => 'Удалить',
+    'index.description' => 'Описание',
 ];

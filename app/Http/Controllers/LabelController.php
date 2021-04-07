@@ -47,7 +47,8 @@ class LabelController extends Controller
         $data = $this->validate(
             $request,
             [
-                'name' => 'required|max:1000'
+                'name' => 'required|max:500',
+                'description' => 'max:1000|string',
             ]
         );
         $label = new Label();
@@ -92,7 +93,8 @@ class LabelController extends Controller
         $data = $this->validate(
             $request,
             [
-                'name' => 'required|max:1000'
+                'name' => 'required|max:500',
+                'description' => 'max:1000|string',
             ]
         );
         $label->fill($data);
