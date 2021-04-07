@@ -143,7 +143,7 @@ class TaskController extends Controller
             $updatedLabels = $request->input('labels');
             $oldLabel = $task->labels()->pluck('label_id');
             $newLabel = array_diff($updatedLabels, $oldLabel->toArray());
-            if (!empty($newLabel)) {
+            if (count($newLabel) > 0) {
                 collect($newLabel)->map(
                     fn($labelId) => $task->labels()->attach($labelId)
                 );

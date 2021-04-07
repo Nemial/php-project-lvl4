@@ -21,7 +21,8 @@ class TaskControllerTest extends TestCase
         parent::setUp();
         $this->seed();
         $this->user = User::factory()->create();
-        $status = TaskStatus::where('name', 'Новый')->first();
+        $statuses = TaskStatus::where('name', 'Новый')->get();
+        [$status] = $statuses;
         $this->id = DB::table('tasks')->insertGetId(
             [
                 'name' => 'Test',
@@ -49,7 +50,8 @@ class TaskControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $status = TaskStatus::where('name', 'На тестировании')->first();
+        $statuses = TaskStatus::where('name', 'На тестировании')->get();
+        [$status] = $statuses;
         $data = [
             'name' => 'StoreTest',
             'status_id' => $status->id,
@@ -78,7 +80,8 @@ class TaskControllerTest extends TestCase
 
     public function testUpdate(): void
     {
-        $status = TaskStatus::where('name', 'В работе')->first();
+        $statuses = TaskStatus::where('name', 'В работе')->get();
+        [$status] = $statuses;
         $data = [
             'name' => 'TestUpdated',
             'status_id' => $status->id,
