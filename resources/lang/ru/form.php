@@ -6,5 +6,8 @@ return [
     'apply' => 'Применить',
     'author' => 'Автор',
     'status' => 'Статус',
-    'executor' => 'Исполнитель'
+    'executor' => 'Исполнитель',
+    'name' => 'Имя',
+    'description' => 'Описание',
+    'labels' => 'Метки',
 ];
