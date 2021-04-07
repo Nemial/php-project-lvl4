@@ -9,7 +9,7 @@ return [
     'index.executor' => 'Исполнитель',
     'index.created_at' => 'Дата создания',
     'index.action' => 'Действия',
-    'index.edit' => 'Редактировать',
+    'index.edit' => 'Изменить',
     'index.delete' => 'Удалить',
     'index.create' => 'Создать задачу',
     'show.page' => 'Посмотреть задачу',
