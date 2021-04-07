@@ -14,7 +14,7 @@ class AddDescriptionColumnToLabelsTable extends Migration
     public function up()
     {
         Schema::table('labels', function (Blueprint $table) {
-            $table->text('description');
+            $table->text('description')->nullable();
         });
     }
 

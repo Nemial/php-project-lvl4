@@ -48,7 +48,7 @@ class LabelController extends Controller
             $request,
             [
                 'name' => 'required|max:500',
-                'description' => 'max:1000|string',
+                'description' => 'max:1000',
             ]
         );
         $label = new Label();
@@ -94,7 +94,7 @@ class LabelController extends Controller
             $request,
             [
                 'name' => 'required|max:500',
-                'description' => 'max:1000|string',
+                'description' => 'max:1000',
             ]
         );
         $label->fill($data);
