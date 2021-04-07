@@ -8,5 +8,5 @@ return [
     'index.action' => 'Действия',
     'index.edit' => 'Редактировать',
     'index.delete' => 'Удалить',
-    'index.create' => 'Создать Статус'
+    'index.create' => 'Создать статус'
 ];
