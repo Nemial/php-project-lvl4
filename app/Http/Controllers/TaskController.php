@@ -7,6 +7,7 @@ use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -70,8 +71,9 @@ class TaskController extends Controller
                 'assigned_to_id' => 'required|integer'
             ]
         );
-        $user = \Auth::user();
-        if ($user) {
+        $user = Auth::user();
+        $haveUser = !is_null($user);
+        if ($haveUser) {
             $data['created_by_id'] = $user->id;
             $task = new Task();
             $task->fill($data);

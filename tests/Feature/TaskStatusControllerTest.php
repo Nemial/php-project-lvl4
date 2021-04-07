@@ -22,21 +22,21 @@ class TaskStatusControllerTest extends TestCase
         $this->id = TaskStatus::first()->id;
     }
 
-    public function testIndex()
+    public function testIndex(): void
     {
         $response = $this->actingAs($this->user)->get(route('task_statuses.index'));
 
         $response->assertOk();
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $response = $this->actingAs($this->user)->get(route('task_statuses.create'));
 
         $response->assertOk();
     }
 
-    public function testStore()
+    public function testStore(): void
     {
         $data = ['name' => 'Тестовый'];
         $response = $this->actingAs($this->user)->post(route('task_statuses.store'), $data);
@@ -45,14 +45,14 @@ class TaskStatusControllerTest extends TestCase
         $this->assertDatabaseHas('task_statuses', ['name' => 'Тестовый']);
     }
 
-    public function testEdit()
+    public function testEdit(): void
     {
         $response = $this->actingAs($this->user)->get(route('task_statuses.edit', $this->id));
 
         $response->assertOk();
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $data = ['name' => 'Изменённый'];
         $response = $this->actingAs($this->user)->put(route('task_statuses.update', $this->id), $data);
@@ -61,7 +61,7 @@ class TaskStatusControllerTest extends TestCase
         $this->assertDatabaseHas('task_statuses', ['name' => 'Изменённый']);
     }
 
-    public function testDestroy()
+    public function testDestroy(): void
     {
         $status = TaskStatus::findOrFail($this->id);
         $response = $this->actingAs($this->user)->delete(route('task_statuses.destroy', $status));

@@ -44,22 +44,22 @@ class Task extends Model
 
     protected $casts = ['created_at' => Data::class];
 
-    public function executor()
+    public function executor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_to_id');
     }
 
-    public function author()
+    public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by_id');
     }
 
-    public function status()
+    public function status(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(TaskStatus::class, 'status_id');
     }
 
-    public function labels()
+    public function labels(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Label::class, 'task_label');
     }

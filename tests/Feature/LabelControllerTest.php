@@ -21,21 +21,21 @@ class LabelControllerTest extends TestCase
         $this->id = \DB::table('labels')->insertGetId(['name' => 'Первая метка']);
     }
 
-    public function testIndex()
+    public function testIndex(): void
     {
         $response = $this->actingAs($this->user)->get(route('labels.index'));
 
         $response->assertOk();
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $response = $this->actingAs($this->user)->get(route('labels.create'));
 
         $response->assertOk();
     }
 
-    public function testStore()
+    public function testStore(): void
     {
         $data = ['name' => 'Тестовая метка'];
         $response = $this->actingAs($this->user)->post(route('labels.store'), $data);
@@ -44,20 +44,20 @@ class LabelControllerTest extends TestCase
         $this->assertDatabaseHas('labels', ['name' => 'Тестовая метка']);
     }
 
-    public function testShow()
+    public function testShow(): void
     {
         $response = $this->actingAs($this->user)->get(route("labels.show", $this->id));
         $response->assertOk();
     }
 
-    public function testEdit()
+    public function testEdit(): void
     {
         $response = $this->actingAs($this->user)->get(route('labels.edit', $this->id));
 
         $response->assertOk();
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $data = ['name' => 'Изменили метку'];
         $response = $this->actingAs($this->user)->put(route('labels.update', $this->id), $data);
@@ -66,7 +66,7 @@ class LabelControllerTest extends TestCase
         $this->assertDatabaseHas('labels', ['name' => 'Изменили метку']);
     }
 
-    public function testDestroy()
+    public function testDestroy(): void
     {
         $label = Label::findOrFail($this->id);
         $response = $this->actingAs($this->user)->delete(route('labels.destroy', $label));

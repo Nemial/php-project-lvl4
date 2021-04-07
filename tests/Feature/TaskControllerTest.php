@@ -33,21 +33,21 @@ class TaskControllerTest extends TestCase
         );
     }
 
-    public function testIndex()
+    public function testIndex(): void
     {
         $response = $this->actingAs($this->user)->get(route('tasks.index'));
 
         $response->assertOk();
     }
 
-    public function testCreate()
+    public function testCreate(): void
     {
         $response = $this->actingAs($this->user)->get(route('tasks.create'));
 
         $response->assertOk();
     }
 
-    public function testStore()
+    public function testStore(): void
     {
         $status = TaskStatus::where('name', 'На тестировании')->first();
         $data = [
@@ -63,20 +63,20 @@ class TaskControllerTest extends TestCase
         $this->assertDatabaseHas('tasks', ['name' => 'StoreTest']);
     }
 
-    public function testShow()
+    public function testShow(): void
     {
         $response = $this->actingAs($this->user)->get(route("tasks.show", $this->id));
         $response->assertOk();
     }
 
-    public function testEdit()
+    public function testEdit(): void
     {
         $response = $this->actingAs($this->user)->get(route('tasks.edit', $this->id));
 
         $response->assertOk();
     }
 
-    public function testUpdate()
+    public function testUpdate(): void
     {
         $status = TaskStatus::where('name', 'В работе')->first();
         $data = [
@@ -91,7 +91,7 @@ class TaskControllerTest extends TestCase
         $this->assertDatabaseHas('tasks', ['name' => 'TestUpdated']);
     }
 
-    public function testDestroy()
+    public function testDestroy(): void
     {
         $task = Task::findOrFail($this->id);
         $response = $this->actingAs($this->user)->delete(route('tasks.destroy', $task));
