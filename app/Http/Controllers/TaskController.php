@@ -15,8 +15,7 @@ class TaskController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Task::class, 'task');
-        $this->middleware('auth');
+        $this->middleware('auth')->except('index');
     }
 
     /**
@@ -163,6 +162,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        $this->authorize('delete', $task);
         $task->delete();
         flash(__('flash.task.destroyed'))->success();
         return redirect()->route('tasks.index');
