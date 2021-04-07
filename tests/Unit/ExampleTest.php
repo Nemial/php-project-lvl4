@@ -13,7 +13,7 @@ class ExampleTest extends TestCase
      */
     public function testExample()
     {
-        $test = 'Laravel' === 'Larave';
+        $test = 'Laravel' == 'Larave';
         $this->assertFalse($test);
     }
 }
