@@ -3,7 +3,7 @@
 return [
     'task.stored' => 'Задача успешно создана',
     'task.edited' => 'Задача успешно изменена',
-    'task.destroyed' => 'Задача успешна удалена',
+    'task.destroyed' => 'Задача успешно удалена',
     'task_status.stored' => 'Статус успешно создан',
     'task_status.edited' => 'Статус успешно изменён',
     'task_status.used' => 'Статус используется в задаче',
