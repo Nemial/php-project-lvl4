@@ -23,7 +23,7 @@ class LabelControllerTest extends TestCase
     {
         $response = $this->actingAs($this->user)->get(route('labels.index'));
         $view = $this->view('label.index', ['labels' => Label::all()]);
-        $view->assertSee($this->label->id);
+        $view->assertSee("{$this->label->id}");
         $view->assertSee($this->label->name);
         $response->assertOk();
     }
@@ -48,7 +48,7 @@ class LabelControllerTest extends TestCase
     {
         $response = $this->actingAs($this->user)->get(route("labels.show", $this->label->id));
         $view = $this->view('label.show', ['label' => $this->label]);
-        $view->assertSee($this->label->id);
+        $view->assertSee("{$this->label->id}");
         $view->assertSee($this->label->name);
         $view->assertSee($this->label->description);
         $response->assertOk();
