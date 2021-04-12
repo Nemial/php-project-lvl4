@@ -5,16 +5,12 @@ namespace Tests\Feature;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class TaskControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
-    private int $id;
     private User $user;
+    private Task $task;
 
     protected function setUp(): void
     {
@@ -23,14 +19,8 @@ class TaskControllerTest extends TestCase
         $this->user = User::factory()->create();
         $statuses = TaskStatus::where('name', 'Новый')->get();
         [$status] = $statuses;
-        $this->id = DB::table('tasks')->insertGetId(
-            [
-                'name' => 'Test',
-                'status_id' => $status->id,
-                'description' => 'Test description',
-                'created_by_id' => $this->user->id,
-                'assigned_to_id' => $this->user->id
-            ]
+        $this->task = Task::factory()->create(
+            ['status_id' => $status->id, 'created_by_id' => $this->user->id, 'assigned_to_id' => $this->user->id]
         );
     }
 
@@ -67,13 +57,13 @@ class TaskControllerTest extends TestCase
 
     public function testShow(): void
     {
-        $response = $this->actingAs($this->user)->get(route("tasks.show", $this->id));
+        $response = $this->actingAs($this->user)->get(route("tasks.show", $this->task->id));
         $response->assertOk();
     }
 
     public function testEdit(): void
     {
-        $response = $this->actingAs($this->user)->get(route('tasks.edit', $this->id));
+        $response = $this->actingAs($this->user)->get(route('tasks.edit', $this->task->id));
 
         $response->assertOk();
     }
@@ -88,7 +78,7 @@ class TaskControllerTest extends TestCase
             'created_by_id' => $this->user->id,
             'assigned_to_id' => $this->user->id
         ];
-        $response = $this->actingAs($this->user)->put(route('tasks.update', $this->id), $data);
+        $response = $this->actingAs($this->user)->put(route('tasks.update', $this->task->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
         $this->assertDatabaseHas('tasks', ['name' => 'TestUpdated']);
@@ -96,7 +86,7 @@ class TaskControllerTest extends TestCase
 
     public function testDestroy(): void
     {
-        $task = Task::findOrFail($this->id);
+        $task = Task::findOrFail($this->task->id);
         $response = $this->actingAs($this->user)->delete(route('tasks.destroy', $task));
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();

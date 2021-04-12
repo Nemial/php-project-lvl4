@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>{{$label->id}}</h1>
-    <h2>{{$label->name}}</h2>
-    <h3>{{$label->created_at}}</h3>
+    <h1 class="mb-5">{{__('labels.show.page')}}: {{$label->name}}</h1>
+    <p>{{__('task_status.show.id')}}: {{$label->id}}</p>
+    <p>{{__('task_status.index.name')}}: {{$label->name}}</p>
+    <p>{{__('task.show.description')}}: {{$label->description}}</p>
 @endsection

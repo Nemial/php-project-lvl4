@@ -58,6 +58,17 @@ class TaskStatusController extends Controller
         return redirect()->route('task_statuses.index');
     }
 
+
+    /**
+     * Display the specified resource.
+     *
+     * @param TaskStatus $taskStatus
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     */
+    public function show(TaskStatus $taskStatus)
+    {
+        return view('task_status.show', compact('taskStatus'));
+    }
     /**
      * Show the form for editing the specified resource.
      *

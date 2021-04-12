@@ -9,8 +9,6 @@ use Tests\TestCase;
 
 class TaskStatusControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     private int $id;
     private User $user;
 

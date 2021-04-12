@@ -1,5 +1,5 @@
 ## Task Manager
-  
+[![hexlet-check](https://github.com/Nemial/php-project-lvl4/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/Nemial/php-project-lvl4/actions/workflows/hexlet-check.yml)
 [![Task Manager](https://github.com/Nemial/php-project-lvl4/actions/workflows/php.yml/badge.svg)](https://github.com/Nemial/php-project-lvl4/actions/workflows/php.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ab542d5d30cf6a7ea162/maintainability)](https://codeclimate.com/github/Nemial/php-project-lvl4/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/ab542d5d30cf6a7ea162/test_coverage)](https://codeclimate.com/github/Nemial/php-project-lvl4/test_coverage)

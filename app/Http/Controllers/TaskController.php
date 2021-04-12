@@ -66,9 +66,9 @@ class TaskController extends Controller
             $request,
             [
                 'name' => 'required|string',
-                'description' => 'max:1000|string',
+                'description' => 'max:1000|string|nullable',
                 'status_id' => 'required|integer',
-                'assigned_to_id' => 'required|integer'
+                'assigned_to_id' => 'integer'
             ]
         );
         $user = Auth::user();
@@ -132,23 +132,26 @@ class TaskController extends Controller
             $request,
             [
                 'name' => 'required|string',
-                'description' => 'max:1000|string',
+                'description' => 'max:1000|string|nullable',
                 'status_id' => 'required|integer',
-                'assigned_to_id' => 'required|integer'
+                'assigned_to_id' => 'integer'
             ]
         );
         $task->fill($data);
         $task->save();
+        $allLabelIds = $task->labels()->pluck('label_id');
         if ($request->exists('labels')) {
-            $updatedLabels = $request->input('labels');
-            $oldLabel = $task->labels()->pluck('label_id');
-            $newLabel = array_diff($updatedLabels, $oldLabel->toArray());
-            if (count($newLabel) > 0) {
-                collect($newLabel)->map(
+            $updatedLabelsIds = $request->input('labels');
+            $newLabelIds = array_diff($updatedLabelsIds, $allLabelIds->toArray());
+            $removeLabelIds = array_diff($allLabelIds->toArray(), $updatedLabelsIds);
+            if (count($newLabelIds) > 0) {
+                collect($newLabelIds)->map(
                     fn($labelId) => $task->labels()->attach($labelId)
                 );
             }
-            Task::whereNotIn('label_id', $updatedLabels)->delete();
+                $task->labels()->detach($removeLabelIds);
+        } else {
+            $task->labels()->detach($allLabelIds->toArray());
         }
 
         flash(__('flash.task.edited'))->success();

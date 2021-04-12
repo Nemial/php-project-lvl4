@@ -25,7 +25,7 @@
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
+            <a class="navbar-brand" href="{{ route('home') }}">
                 @lang('home.project.name')
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -38,16 +38,16 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link {{\Illuminate\Support\Facades\Request::path() === 'tasks' ? 'active' : ''}}"
+                        <a class="nav-link {{url()->current() === route('tasks.index') ? 'active' : ''}}"
                            href="{{ route('tasks.index') }}">{{__('home.task')}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{\Illuminate\Support\Facades\Request::path() === 'task_statuses' ? 'active' : ''}}"
+                        <a class="nav-link {{url()->current() === route('task_statuses.index') ? 'active' : ''}}"
                            href="{{ route('task_statuses.index') }}">{{__('home.status')}}</a>
 
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{\Illuminate\Support\Facades\Request::path() === 'labels' ? 'active' : ''}}"
+                        <a class="nav-link {{url()->current() === route('labels.index') ? 'active' : ''}}"
                            href="{{ route('labels.index') }}">{{__('home.labels')}}</a>
 
                     </li>

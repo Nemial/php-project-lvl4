@@ -10,4 +10,5 @@ return [
     'index.edit' => 'Изменить',
     'index.delete' => 'Удалить',
     'index.description' => 'Описание',
+    'show.page' => 'Посмотреть метку',
 ];
