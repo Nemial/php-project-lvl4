@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Task;
-use App\Policies\TaskPolicy;
+use App\Policies\TaskPolicy1;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider

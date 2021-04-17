@@ -22,8 +22,25 @@ class LabelFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->monthName,
-            'description' => $this->faker->text
+            'name' => 'Первая метка',
+            'description' => 'Первое описание'
         ];
+    }
+    public function labelData()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => 'Тестовая метка',
+                'description' => 'Тестовое описание'
+            ];
+        });
+    }
+    public function labelUpdatedData()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => 'Изменили метку',
+            ];
+        });
     }
 }

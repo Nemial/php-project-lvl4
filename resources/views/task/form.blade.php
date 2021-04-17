@@ -8,11 +8,11 @@
 </div>
 <div class="form-group">
     {{Form::label('status_id', __('form.status'))}}
-    {{Form::select('status_id', $statuses, null, ['class' => 'form-control'])}}
+    {{Form::select('status_id', $statuses, null, ['class' => 'form-control', 'placeholder' => '------'])}}
 </div>
 <div class="form-group">
     {{Form::label('assigned_to_id', __('form.executor'))}}
-    {{Form::select('assigned_to_id', $users, null, ['class' => 'form-control'])}}
+    {{Form::select('assigned_to_id', $users, null, ['class' => 'form-control', 'placeholder' => '------'])}}
 </div>
 <div class="form-group">
     {{Form::label('labels', __('form.labels'))}}

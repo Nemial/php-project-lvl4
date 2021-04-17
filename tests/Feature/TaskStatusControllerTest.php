@@ -9,17 +9,14 @@ use Tests\TestCase;
 
 class TaskStatusControllerTest extends TestCase
 {
-    private int $id;
     private User $user;
+    private TaskStatus $originalStatus;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
         $this->user = User::factory()->make();
-        $statuses = TaskStatus::get();
-        [$status] = $statuses;
-        $this->id = $status->id;
+        $this->originalStatus = TaskStatus::factory()->create();
     }
 
     public function testIndex(): void
@@ -38,32 +35,32 @@ class TaskStatusControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $data = ['name' => 'Тестовый'];
+        $data = TaskStatus::factory()->statusData()->make()->toArray();
         $response = $this->actingAs($this->user)->post(route('task_statuses.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => 'Тестовый']);
+        $this->assertDatabaseHas('task_statuses', $data);
     }
 
     public function testEdit(): void
     {
-        $response = $this->actingAs($this->user)->get(route('task_statuses.edit', $this->id));
+        $response = $this->actingAs($this->user)->get(route('task_statuses.edit', $this->originalStatus->id));
 
         $response->assertOk();
     }
 
     public function testUpdate(): void
     {
-        $data = ['name' => 'Изменённый'];
-        $response = $this->actingAs($this->user)->put(route('task_statuses.update', $this->id), $data);
+        $data = TaskStatus::factory()->statusUpdatedData()->make()->toArray();
+        $response = $this->actingAs($this->user)->put(route('task_statuses.update', $this->originalStatus->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('task_statuses', ['name' => 'Изменённый']);
+        $this->assertDatabaseHas('task_statuses', $data);
     }
 
     public function testDestroy(): void
     {
-        $status = TaskStatus::findOrFail($this->id);
+        $status = TaskStatus::findOrFail($this->originalStatus->id);
         $response = $this->actingAs($this->user)->delete(route('task_statuses.destroy', $status));
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();

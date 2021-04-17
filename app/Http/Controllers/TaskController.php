@@ -67,13 +67,12 @@ class TaskController extends Controller
             [
                 'name' => 'required|string',
                 'description' => 'max:1000|string|nullable',
-                'status_id' => 'required|integer',
-                'assigned_to_id' => 'integer'
+                'status_id' => 'integer|nullable',
+                'assigned_to_id' => 'integer|nullable'
             ]
         );
         $user = Auth::user();
-        $haveUser = !is_null($user);
-        if ($haveUser) {
+        if (!is_null($user)) {
             $data['created_by_id'] = $user->id;
             $task = new Task();
             $task->fill($data);
@@ -88,9 +87,8 @@ class TaskController extends Controller
 
             flash(__('flash.task.stored'))->success();
             return redirect()->route('tasks.index');
-        } else {
-            throw new \Exception('User not authorized');
         }
+        throw new \Exception('User not authorized');
     }
 
     /**
@@ -133,26 +131,19 @@ class TaskController extends Controller
             [
                 'name' => 'required|string',
                 'description' => 'max:1000|string|nullable',
-                'status_id' => 'required|integer',
-                'assigned_to_id' => 'integer'
+                'status_id' => 'integer|nullable',
+                'assigned_to_id' => 'integer|nullable'
             ]
         );
         $task->fill($data);
         $task->save();
-        $allLabelIds = $task->labels()->pluck('label_id');
-        if ($request->exists('labels')) {
-            $updatedLabelsIds = $request->input('labels');
-            $newLabelIds = array_diff($updatedLabelsIds, $allLabelIds->toArray());
-            $removeLabelIds = array_diff($allLabelIds->toArray(), $updatedLabelsIds);
-            if (count($newLabelIds) > 0) {
-                collect($newLabelIds)->map(
-                    fn($labelId) => $task->labels()->attach($labelId)
-                );
+        $labels = collect($request->input('labels', []));
+        $filtered = $labels->filter(
+            function ($label) {
+                return $label !== null;
             }
-                $task->labels()->detach($removeLabelIds);
-        } else {
-            $task->labels()->detach($allLabelIds->toArray());
-        }
+        );
+        $task->labels()->sync($filtered);
 
         flash(__('flash.task.edited'))->success();
         return redirect()->route('tasks.index');
@@ -168,6 +159,7 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $this->authorize('delete', $task);
+        $task->labels()->detach();
         $task->delete();
         flash(__('flash.task.destroyed'))->success();
         return redirect()->route('tasks.index');

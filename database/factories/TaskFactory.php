@@ -22,8 +22,7 @@ class TaskFactory extends Factory
      */
     public function definition()
     {
-        $statuses = TaskStatus::get();
-        [$status] = $statuses;
+        $status = TaskStatus::factory()->create();
         $defaultUserId = 1;
         return [
             'name' => $this->faker->name,
@@ -32,5 +31,38 @@ class TaskFactory extends Factory
             'created_by_id' => $defaultUserId,
             'assigned_to_id' => $defaultUserId
         ];
+    }
+
+    public function taskNew($user)
+    {
+        return $this->state(function (array $attributes) use ($user) {
+            return [
+                'created_by_id' => $user->id,
+                'assigned_to_id' => $user->id
+            ];
+        });
+    }
+    public function taskData($user, $status)
+    {
+        return $this->state(function (array $attributes) use ($user, $status) {
+            return [
+                'name' => 'StoreTest',
+                'status_id' => $status->id,
+                'description' => 'It is stored test task',
+                'created_by_id' => $user->id,
+                'assigned_to_id' => $user->id
+            ];
+        });
+    }
+    public function taskUpdatedData($user, $status)
+    {
+        return $this->state(function (array $attributes) use ($user, $status) {
+            return [
+                'name' => 'TestUpdated',
+                'status_id' => $status->id,
+                'created_by_id' => $user->id,
+                'assigned_to_id' => $user->id
+            ];
+        });
     }
 }

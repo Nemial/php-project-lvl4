@@ -22,9 +22,8 @@ class LabelControllerTest extends TestCase
     public function testIndex(): void
     {
         $response = $this->actingAs($this->user)->get(route('labels.index'));
-        $view = $this->view('label.index', ['labels' => Label::all()]);
-        $view->assertSee("{$this->label->id}");
-        $view->assertSee($this->label->name);
+        $response->assertSee("{$this->label->id}");
+        $response->assertSee($this->label->name);
         $response->assertOk();
     }
 
@@ -37,7 +36,7 @@ class LabelControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $data = ['name' => 'Тестовая метка'];
+        $data = Label::factory()->labelData()->make()->toArray();
         $response = $this->actingAs($this->user)->post(route('labels.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
@@ -47,10 +46,9 @@ class LabelControllerTest extends TestCase
     public function testShow(): void
     {
         $response = $this->actingAs($this->user)->get(route("labels.show", $this->label->id));
-        $view = $this->view('label.show', ['label' => $this->label]);
-        $view->assertSee("{$this->label->id}");
-        $view->assertSee($this->label->name);
-        $view->assertSee($this->label->description);
+        $response->assertSee("{$this->label->id}");
+        $response->assertSee($this->label->name);
+        $response->assertSee($this->label->description);
         $response->assertOk();
     }
 
@@ -63,11 +61,11 @@ class LabelControllerTest extends TestCase
 
     public function testUpdate(): void
     {
-        $data = ['name' => 'Изменили метку'];
+        $data = Label::factory()->labelUpdatedData()->make()->toArray();
         $response = $this->actingAs($this->user)->put(route('labels.update', $this->label->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('labels', ['name' => 'Изменили метку']);
+        $this->assertDatabaseHas('labels', $data);
     }
 
     public function testDestroy(): void

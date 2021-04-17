@@ -15,13 +15,8 @@ class TaskControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->seed();
         $this->user = User::factory()->create();
-        $statuses = TaskStatus::where('name', 'Новый')->get();
-        [$status] = $statuses;
-        $this->task = Task::factory()->create(
-            ['status_id' => $status->id, 'created_by_id' => $this->user->id, 'assigned_to_id' => $this->user->id]
-        );
+        $this->task = Task::factory()->taskNew($this->user)->create();
     }
 
     public function testIndex(): void
@@ -40,19 +35,12 @@ class TaskControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $statuses = TaskStatus::where('name', 'На тестировании')->get();
-        [$status] = $statuses;
-        $data = [
-            'name' => 'StoreTest',
-            'status_id' => $status->id,
-            'description' => 'It is stored test task',
-            'created_by_id' => $this->user->id,
-            'assigned_to_id' => $this->user->id
-        ];
+        $status = TaskStatus::factory()->statusTest()->make();
+        $data = Task::factory()->taskData($this->user, $status)->make()->toArray();
         $response = $this->actingAs($this->user)->post(route('tasks.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('tasks', ['name' => 'StoreTest']);
+        $this->assertDatabaseHas('tasks', $data);
     }
 
     public function testShow(): void
@@ -70,18 +58,12 @@ class TaskControllerTest extends TestCase
 
     public function testUpdate(): void
     {
-        $statuses = TaskStatus::where('name', 'В работе')->get();
-        [$status] = $statuses;
-        $data = [
-            'name' => 'TestUpdated',
-            'status_id' => $status->id,
-            'created_by_id' => $this->user->id,
-            'assigned_to_id' => $this->user->id
-        ];
+        $status = TaskStatus::factory()->statusWork()->make();
+        $data = Task::factory()->taskUpdatedData($this->user, $status)->make()->toArray();
         $response = $this->actingAs($this->user)->put(route('tasks.update', $this->task->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('tasks', ['name' => 'TestUpdated']);
+        $this->assertDatabaseHas('tasks', $data);
     }
 
     public function testDestroy(): void
