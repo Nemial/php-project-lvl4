@@ -33,7 +33,11 @@ class TaskFactory extends Factory
         ];
     }
 
-    public function taskNew($user)
+    /**
+     * @param $user
+     * @return TaskFactory
+     */
+    public function taskNew($user): TaskFactory
     {
         return $this->state(function (array $attributes) use ($user) {
             return [
@@ -42,7 +46,13 @@ class TaskFactory extends Factory
             ];
         });
     }
-    public function taskData($user, $status)
+
+    /**
+     * @param $user
+     * @param $status
+     * @return TaskFactory
+     */
+    public function taskData($user, $status): TaskFactory
     {
         return $this->state(function (array $attributes) use ($user, $status) {
             return [
@@ -54,7 +64,13 @@ class TaskFactory extends Factory
             ];
         });
     }
-    public function taskUpdatedData($user, $status)
+
+    /**
+     * @param $user
+     * @param $status
+     * @return TaskFactory
+     */
+    public function taskUpdatedData($user, $status): TaskFactory
     {
         return $this->state(function (array $attributes) use ($user, $status) {
             return [

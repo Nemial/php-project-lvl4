@@ -19,14 +19,17 @@ class TaskStatusFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => 'Новый',
         ];
     }
 
-    public function statusTest()
+    /**
+     * @return TaskStatusFactory
+     */
+    public function statusTest(): TaskStatusFactory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -34,7 +37,11 @@ class TaskStatusFactory extends Factory
             ];
         });
     }
-    public function statusWork()
+
+    /**
+     * @return TaskStatusFactory
+     */
+    public function statusWork(): TaskStatusFactory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -42,7 +49,11 @@ class TaskStatusFactory extends Factory
             ];
         });
     }
-    public function statusData()
+
+    /**
+     * @return TaskStatusFactory
+     */
+    public function statusData(): TaskStatusFactory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -50,7 +61,11 @@ class TaskStatusFactory extends Factory
             ];
         });
     }
-    public function statusUpdatedData()
+
+    /**
+     * @return TaskStatusFactory
+     */
+    public function statusUpdatedData(): TaskStatusFactory
     {
         return $this->state(function (array $attributes) {
             return [

@@ -19,14 +19,18 @@ class LabelFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => 'Первая метка',
             'description' => 'Первое описание'
         ];
     }
-    public function labelData()
+
+    /**
+     * @return LabelFactory
+     */
+    public function labelData(): LabelFactory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -35,7 +39,11 @@ class LabelFactory extends Factory
             ];
         });
     }
-    public function labelUpdatedData()
+
+    /**
+     * @return LabelFactory
+     */
+    public function labelUpdatedData(): LabelFactory
     {
         return $this->state(function (array $attributes) {
             return [

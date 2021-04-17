@@ -139,7 +139,7 @@ class TaskController extends Controller
         $task->save();
         $labels = collect($request->input('labels', []));
         $filtered = $labels->filter(
-            function ($label) {
+            function ($label): bool {
                 return $label !== null;
             }
         );
