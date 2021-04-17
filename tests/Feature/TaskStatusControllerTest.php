@@ -35,7 +35,7 @@ class TaskStatusControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $data = TaskStatus::factory()->statusData()->make()->toArray();
+        $data = TaskStatus::factory()->statusData()->make()->toArray(); /** @phpstan-ignore-line */
         $response = $this->actingAs($this->user)->post(route('task_statuses.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
@@ -51,7 +51,7 @@ class TaskStatusControllerTest extends TestCase
 
     public function testUpdate(): void
     {
-        $data = TaskStatus::factory()->statusUpdatedData()->make()->toArray();
+        $data = TaskStatus::factory()->statusUpdatedData()->make()->toArray(); /** @phpstan-ignore-line */
         $response = $this->actingAs($this->user)->put(route('task_statuses.update', $this->originalStatus->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();

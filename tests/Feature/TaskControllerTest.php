@@ -16,7 +16,7 @@ class TaskControllerTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        $this->task = Task::factory()->taskNew($this->user)->create();
+        $this->task = Task::factory()->taskNew($this->user)->create(); /** @phpstan-ignore-line */
     }
 
     public function testIndex(): void
@@ -35,8 +35,8 @@ class TaskControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $status = TaskStatus::factory()->statusTest()->make();
-        $data = Task::factory()->taskData($this->user, $status)->make()->toArray();
+        $status = TaskStatus::factory()->statusTest()->make(); /** @phpstan-ignore-line */
+        $data = Task::factory()->taskData($this->user, $status)->make()->toArray(); /** @phpstan-ignore-line */
         $response = $this->actingAs($this->user)->post(route('tasks.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
@@ -58,8 +58,8 @@ class TaskControllerTest extends TestCase
 
     public function testUpdate(): void
     {
-        $status = TaskStatus::factory()->statusWork()->make();
-        $data = Task::factory()->taskUpdatedData($this->user, $status)->make()->toArray();
+        $status = TaskStatus::factory()->statusWork()->make(); /** @phpstan-ignore-line */
+        $data = Task::factory()->taskUpdatedData($this->user, $status)->make()->toArray(); /** @phpstan-ignore-line */
         $response = $this->actingAs($this->user)->put(route('tasks.update', $this->task->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();

@@ -36,7 +36,7 @@ class LabelControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $data = Label::factory()->labelData()->make()->toArray();
+        $data = Label::factory()->labelData()->make()->toArray(); /** @phpstan-ignore-line */
         $response = $this->actingAs($this->user)->post(route('labels.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
@@ -61,7 +61,7 @@ class LabelControllerTest extends TestCase
 
     public function testUpdate(): void
     {
-        $data = Label::factory()->labelUpdatedData()->make()->toArray();
+        $data = Label::factory()->labelUpdatedData()->make()->toArray(); /** @phpstan-ignore-line */
         $response = $this->actingAs($this->user)->put(route('labels.update', $this->label->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
