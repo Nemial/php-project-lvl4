@@ -35,7 +35,7 @@ class LabelControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $data = Label::factory()->labelData()->make()->toArray(); /** @phpstan-ignore-line */
+        $data = Label::factory()->labelData()->make()->toArray();
         $response = $this->actingAs($this->user)->post(route('labels.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
