@@ -22,55 +22,7 @@ class TaskStatusFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'Новый',
+            'name' => $this->faker->unique()->name,
         ];
-    }
-
-    /**
-     * @return TaskStatusFactory
-     */
-    public function statusTest(): TaskStatusFactory
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'name' => ' На тестировании',
-            ];
-        });
-    }
-
-    /**
-     * @return TaskStatusFactory
-     */
-    public function statusWork(): TaskStatusFactory
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'name' => 'В работе'
-            ];
-        });
-    }
-
-    /**
-     * @return TaskStatusFactory
-     */
-    public function statusData(): TaskStatusFactory
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'name' => 'Тестовый',
-            ];
-        });
-    }
-
-    /**
-     * @return TaskStatusFactory
-     */
-    public function statusUpdatedData(): TaskStatusFactory
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'name' => 'Изменённый',
-            ];
-        });
     }
 }

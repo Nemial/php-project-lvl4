@@ -9,6 +9,8 @@ use Tests\TestCase;
 
 class LabelControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     private Label $label;
     private User $user;
 
@@ -35,7 +37,7 @@ class LabelControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $data = Label::factory()->labelData()->make()->toArray();
+        $data = Label::factory()->make()->toArray();
         $response = $this->actingAs($this->user)->post(route('labels.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
@@ -45,10 +47,7 @@ class LabelControllerTest extends TestCase
     public function testShow(): void
     {
         $response = $this->actingAs($this->user)->get(route("labels.show", $this->label->id));
-        $response->assertSee("{$this->label->id}");
-        $response->assertSee($this->label->name);
-        $response->assertSee($this->label->description);
-        $response->assertOk();
+        $response->assertOk()->assertSee($this->label->name);
     }
 
     public function testEdit(): void
@@ -60,7 +59,7 @@ class LabelControllerTest extends TestCase
 
     public function testUpdate(): void
     {
-        $data = Label::factory()->labelUpdatedData()->make()->toArray(); /** @phpstan-ignore-line */
+        $data = Label::factory()->make()->toArray();
         $response = $this->actingAs($this->user)->put(route('labels.update', $this->label->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();

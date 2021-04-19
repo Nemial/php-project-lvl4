@@ -3,20 +3,23 @@
 namespace Tests\Feature;
 
 use App\Models\Task;
-use App\Models\TaskStatus;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TaskControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     private User $user;
     private Task $task;
 
     protected function setUp(): void
     {
         parent::setUp();
+        $this->seed();
         $this->user = User::factory()->create();
-        $this->task = Task::factory()->taskNew($this->user)->create(); /** @phpstan-ignore-line */
+        $this->task = Task::factory()->create();
     }
 
     public function testIndex(): void
@@ -35,8 +38,7 @@ class TaskControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $status = TaskStatus::factory()->statusTest()->make(); /** @phpstan-ignore-line */
-        $data = Task::factory()->taskData($this->user, $status)->make()->toArray(); /** @phpstan-ignore-line */
+        $data = Task::factory()->make()->toArray();
         $response = $this->actingAs($this->user)->post(route('tasks.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
@@ -58,8 +60,7 @@ class TaskControllerTest extends TestCase
 
     public function testUpdate(): void
     {
-        $status = TaskStatus::factory()->statusWork()->make(); /** @phpstan-ignore-line */
-        $data = Task::factory()->taskUpdatedData($this->user, $status)->make()->toArray(); /** @phpstan-ignore-line */
+        $data = Task::factory()->make()->toArray();
         $response = $this->actingAs($this->user)->put(route('tasks.update', $this->task->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();

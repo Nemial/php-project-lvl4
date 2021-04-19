@@ -9,6 +9,8 @@ use Tests\TestCase;
 
 class TaskStatusControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     private User $user;
     private TaskStatus $originalStatus;
 
@@ -35,7 +37,7 @@ class TaskStatusControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $data = TaskStatus::factory()->statusData()->make()->toArray(); /** @phpstan-ignore-line */
+        $data = TaskStatus::factory()->make()->toArray();
         $response = $this->actingAs($this->user)->post(route('task_statuses.store'), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
@@ -51,7 +53,7 @@ class TaskStatusControllerTest extends TestCase
 
     public function testUpdate(): void
     {
-        $data = TaskStatus::factory()->statusUpdatedData()->make()->toArray(); /** @phpstan-ignore-line */
+        $data = TaskStatus::factory()->make()->toArray();
         $response = $this->actingAs($this->user)->put(route('task_statuses.update', $this->originalStatus->id), $data);
         $response->assertRedirect();
         $response->assertSessionHasNoErrors();
