@@ -72,23 +72,18 @@ class TaskController extends Controller
             ]
         );
         $user = Auth::user();
-        if (!is_null($user)) {
-            $data['created_by_id'] = $user->id;
-            $task = new Task();
-            $task->fill($data);
-            $task->save();
 
-            if ($request->exists('labels')) {
-                $labels = $request->input('labels');
-                collect($labels)->map(
-                    fn($labelId) => $task->labels()->attach($labels)
-                );
-            }
-
-            flash(__('flash.task.stored'))->success();
-            return redirect()->route('tasks.index');
+        if (!isset($user)) {
+            throw new \Exception('User is not authenticated');
         }
-        throw new \Exception('User not authorized');
+
+        $task = $user->createdTasks()->make($data);
+        $task->save();
+        $labels = collect($request->input('labels'))
+            ->filter(fn($label) => $label !== null);
+        $task->labels()->attach($labels);
+        flash(__('flash.task.stored'))->success();
+        return redirect()->route('tasks.index');
     }
 
     /**

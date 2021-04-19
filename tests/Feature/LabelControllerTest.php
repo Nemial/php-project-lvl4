@@ -22,9 +22,8 @@ class LabelControllerTest extends TestCase
     public function testIndex(): void
     {
         $response = $this->actingAs($this->user)->get(route('labels.index'));
-        $response->assertSee("{$this->label->id}");
-        $response->assertSee($this->label->name);
-        $response->assertOk();
+        $labelName = $this->label->name;
+        $response->assertOk()->assertSee($labelName);
     }
 
     public function testCreate(): void
